@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0f1f;
+  --foreground: #e8e8e8;
+  --cosmic-blue: #1a2940;
+  --cosmic-dark-blue: #0d1626;
+  --cosmic-gold: #d4af37;
+  --cosmic-light-gold: #f4d03f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-cosmic-blue: var(--cosmic-blue);
+  --color-cosmic-dark-blue: var(--cosmic-dark-blue);
+  --color-cosmic-gold: var(--cosmic-gold);
+  --color-cosmic-light-gold: var(--cosmic-light-gold);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(to bottom, #0a0f1f, #1a2940);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
