@@ -633,10 +633,12 @@ export const EbeAnaArtwork: React.FC<ArtworkProps> = ({ className = "", animate 
   );
 };
 
-export default {
+const MythologyArtworks = {
   SiriusPainting,
   KayraHanSculpture,
   SimurgDigital,
   DemirKazikInstallation,
   EbeAnaArtwork
 };
+
+export default MythologyArtworks;

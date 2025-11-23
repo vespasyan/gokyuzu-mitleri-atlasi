@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
+import { Star } from '@/lib/types';
 
 interface Props {
-  stars?: any[];
-  onStarClick?: (s: any) => void;
+  stars?: Star[];
+  onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
 }
 

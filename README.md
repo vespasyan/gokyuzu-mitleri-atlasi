@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Gökyüzü Mitleri Atlası
 
 Türk mitolojisindeki yıldız hikayeleri ve çağdaş sanat yorumları ile interaktif gökyüzü deneyimi.
@@ -182,3 +183,7 @@ Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için `LICENSE` dosy
 ---
 
 ⭐ **Gökyüzü Mitleri Atlası** - Geçmişin bilgeliği, geleceğin teknolojisi
+=======
+# gokyuzu-mitleri-atlasi
+Gökyüzü Mitleri Atlası — Türk mitolojisindeki yıldız hikâyelerini çağdaş sanat ve dijital teknolojiyle birleştiren interaktif web projesi. Next.js ve Three.js tabanlı 3B görselleştirme.
+>>>>>>> 590df5bfa468a98b6e56355d61950fe9e225c68f

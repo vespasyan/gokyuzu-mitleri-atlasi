@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { SiriusPainting, KayraHanSculpture, SimurgDigital, DemirKazikInstallation, EbeAnaArtwork } from '@/components/art/MythologyArtworks'
 import starsData from '@/data/stars.json'
 import { Star } from '@/lib/types'
 
@@ -131,7 +130,7 @@ const artworks = [
 ]
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function generateStaticParams() {
@@ -141,7 +140,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const artwork = artworks.find((a) => a.id === params.id)
+  const { id } = await params
+  const artwork = artworks.find((a) => a.id === id)
   
   if (!artwork) {
     return {
@@ -155,8 +155,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function ArtworkDetailPage({ params }: Props) {
-  const artwork = artworks.find((a) => a.id === params.id)
+export default async function ArtworkDetailPage({ params }: Props) {
+  const { id } = await params
+  const artwork = artworks.find((a) => a.id === id)
 
   if (!artwork) {
     notFound()
@@ -191,6 +192,7 @@ export default function ArtworkDetailPage({ params }: Props) {
             <div className="bg-dark-400/50 backdrop-blur-lg rounded-lg overflow-hidden border border-white/10">
               <div className="aspect-square bg-gradient-to-br from-dark-400 to-dark-300 flex items-center justify-center p-8">
                 {artwork.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img 
                     src={artwork.imageUrl} 
                     alt={artwork.title}
@@ -245,7 +247,7 @@ export default function ArtworkDetailPage({ params }: Props) {
               <div className="bg-star-gradient/10 rounded-lg p-6 border-l-4 border-star-400">
                 <h3 className="text-lg font-semibold text-white mb-3">Sanatçı Yorumu</h3>
                 <p className="text-gray-300 italic">
-                  "{artwork.interpretation}"
+                  &ldquo;{artwork.interpretation}&rdquo;
                 </p>
               </div>
             </div>

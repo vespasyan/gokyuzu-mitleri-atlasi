@@ -4,10 +4,11 @@ import React, { useRef, useEffect, Suspense, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Text } from "@react-three/drei";
 import * as THREE from "three";
+import { Star } from '@/lib/types';
 
 type Props = {
-  stars?: any[];
-  onStarClick?: (s: any) => void;
+  stars?: Star[];
+  onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
 };
 
@@ -21,7 +22,7 @@ function LoadingSpinner() {
 }
 
 // Star Point component
-function StarPoint({ star, isSelected, onStarClick }: { star: any; isSelected: boolean; onStarClick: (s: any) => void }) {
+function StarPoint({ star, isSelected, onStarClick }: { star: Star; isSelected: boolean; onStarClick: (s: Star) => void }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
   
@@ -75,8 +76,9 @@ function StarPoint({ star, isSelected, onStarClick }: { star: any; isSelected: b
 }
 
 // Camera Controller with enhanced zoom effects
-function CameraController({ selectedStar, onControlsReady }: { selectedStar?: any; onControlsReady?: (controls: any) => void }) {
+function CameraController({ selectedStar, onControlsReady }: { selectedStar?: Star; onControlsReady?: (controls: unknown) => void }) {
   const { camera } = useThree();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const controlsRef = useRef<any>();
   const lastDistance = useRef(15);
   const zoomEffect = useRef(0);
@@ -183,10 +185,10 @@ function CameraController({ selectedStar, onControlsReady }: { selectedStar?: an
 
 // Simple working scene
 function Scene({ stars, onStarClick, selectedStarId, onControlsReady }: { 
-  stars: any[]; 
-  onStarClick?: (s: any) => void; 
+  stars: Star[]; 
+  onStarClick?: (s: Star) => void; 
   selectedStarId?: string | number;
-  onControlsReady?: (controls: any) => void;
+  onControlsReady?: (controls: unknown) => void;
 }) {
   const selectedStar = stars.find(s => s.id === selectedStarId);
   
@@ -221,6 +223,7 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
   // Canvas için kapsayıcı div (event kaynağı)
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasError, setHasError] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [controlsRef, setControlsRef] = useState<any>(null);
 
   // window/document gibi erişimleri modül üstünde değil, effect içinde yap

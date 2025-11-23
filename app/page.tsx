@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import * as THREE from 'three'
 import { Star } from '@/lib/types'
 import { StarInfoPanel } from '@/components/StarInfoPanel'
 import starsData from '@/data/stars.json'
@@ -169,29 +168,18 @@ export default function HomePage() {
           <div className="absolute top-20 right-4 flex flex-col gap-2 pointer-events-auto">
             <button
               onClick={() => {
+                type WindowWithZoom = Window & typeof globalThis & { zoomIn?: () => void; zoomOut?: () => void };
+                const w = window as WindowWithZoom;
                 console.log('=== ZOOM IN BUTTON CLICKED ===');
                 console.log('Available zoom functions:', {
-                  zoomIn: !!(window as any).zoomIn,
-                  zoomOut: !!(window as any).zoomOut,
-                  starFieldControls: !!(window as any).starFieldControls
+                  zoomIn: !!w.zoomIn,
+                  zoomOut: !!w.zoomOut
                 });
                 
-                // Try the global zoom function first
-                if ((window as any).zoomIn) {
+                // Try the global zoom function
+                if (w.zoomIn) {
                   console.log('✓ Using window.zoomIn');
-                  (window as any).zoomIn();
-                } else if ((window as any).starFieldControls) {
-                  console.log('✓ Using starFieldControls directly');
-                  const controls = (window as any).starFieldControls;
-                  const camera = controls.object;
-                  const target = controls.target;
-                  const direction = new THREE.Vector3().subVectors(camera.position, target).normalize();
-                  const currentDistance = camera.position.distanceTo(target);
-                  const newDistance = Math.max(1, currentDistance * 0.7);
-                  const newPosition = target.clone().add(direction.multiplyScalar(newDistance));
-                  camera.position.copy(newPosition);
-                  controls.update();
-                  console.log('✓ Manual zoom complete');
+                  w.zoomIn();
                 } else {
                   console.log('❌ NO ZOOM METHODS AVAILABLE!');
                   alert('Zoom bulunamadı! Sayfayı yenileyin ve F12 ile console\'u kontrol edin.');
@@ -204,32 +192,21 @@ export default function HomePage() {
             </button>
             <button
               onClick={() => {
+                type WindowWithZoom = Window & typeof globalThis & { zoomIn?: () => void; zoomOut?: () => void };
+                const w = window as WindowWithZoom;
                 console.log('=== ZOOM OUT BUTTON CLICKED ===');
                 console.log('Available zoom functions:', {
-                  zoomIn: !!(window as any).zoomIn,
-                  zoomOut: !!(window as any).zoomOut,
-                  starFieldControls: !!(window as any).starFieldControls
+                  zoomIn: !!w.zoomIn,
+                  zoomOut: !!w.zoomOut
                 });
                 
-                // Try the global zoom function first
-                if ((window as any).zoomOut) {
+                // Try the global zoom function
+                if (w.zoomOut) {
                   console.log('✓ Using window.zoomOut');
-                  (window as any).zoomOut();
-                } else if ((window as any).starFieldControls) {
-                  console.log('✓ Using starFieldControls directly');
-                  const controls = (window as any).starFieldControls;
-                  const camera = controls.object;
-                  const target = controls.target;
-                  const direction = new THREE.Vector3().subVectors(camera.position, target).normalize();
-                  const currentDistance = camera.position.distanceTo(target);
-                  const newDistance = Math.min(150, currentDistance * 1.4);
-                  const newPosition = target.clone().add(direction.multiplyScalar(newDistance));
-                  camera.position.copy(newPosition);
-                  controls.update();
-                  console.log('✓ Manual zoom complete');
+                  w.zoomOut();
                 } else {
                   console.log('❌ NO ZOOM METHODS AVAILABLE!');
-                  alert('Zoom bulunamadı! Sayfayı yenileyin ve F12 ile console\'u kontrol edin.');
+                  alert('Zoom bulunamadı! Sayfayı yenileyin.');
                 }
               }}
               className="w-12 h-12 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 active:scale-95 text-white rounded-full shadow-lg border-2 border-white/20 flex items-center justify-center transition-all duration-200 hover:scale-110 focus-ring"

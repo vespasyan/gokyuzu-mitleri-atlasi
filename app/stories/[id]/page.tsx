@@ -7,7 +7,7 @@ import { Star } from '@/lib/types'
 const stars = starsData.stars as Star[]
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function generateStaticParams() {
@@ -17,7 +17,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const star = stars.find((s) => s.id === params.id)
+  const { id } = await params
+  const star = stars.find((s) => s.id === id)
   
   if (!star) {
     return {
@@ -31,8 +32,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function StoryPage({ params }: Props) {
-  const star = stars.find((s) => s.id === params.id)
+export default async function StoryPage({ params }: Props) {
+  const { id } = await params
+  const star = stars.find((s) => s.id === id)
 
   if (!star) {
     notFound()
@@ -132,7 +134,7 @@ export default function StoryPage({ params }: Props) {
             Hikayenin Öğrettikleri
           </h3>
           <p className="text-white/90 text-lg italic">
-            "{star.myth.moralLesson}"
+            &ldquo;{star.myth.moralLesson}&rdquo;
           </p>
         </div>
 

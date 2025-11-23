@@ -41,7 +41,7 @@ function SiriusGLTFModel() {
     
     // Apply materials
     modelRef.current.traverse((child) => {
-      if ((child as any).isMesh) {
+      if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         const mat = mesh.material as THREE.MeshStandardMaterial;
         if (mat && mat.isMeshStandardMaterial) {

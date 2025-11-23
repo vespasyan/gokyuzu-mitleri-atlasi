@@ -103,7 +103,7 @@ export function StarInfoPanel({ star, isOpen, onClose }: StarInfoPanelProps) {
               {star.myth.moralLesson && (
                 <div className="bg-cosmic-100/10 rounded p-3 border-l-4 border-star-400">
                   <p className="text-star-200 italic text-sm">
-                    "{star.myth.moralLesson}"
+                    &ldquo;{star.myth.moralLesson}&rdquo;
                   </p>
                 </div>
               )}
@@ -182,6 +182,7 @@ export function StarInfoPanel({ star, isOpen, onClose }: StarInfoPanelProps) {
                           Tarayıcınız video oynatmayı desteklemiyor.
                         </video>
                       ) : image.type === 'animation' ? (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={image.url}
                           alt={image.alt}

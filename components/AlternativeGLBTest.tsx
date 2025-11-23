@@ -3,12 +3,11 @@
 import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 // Alternative GLB loader using Three.js directly
 function AlternativeGLBModel() {
-  const [gltf, setGltf] = useState<any>(null);
+  const [gltf, setGltf] = useState<{ scene: unknown } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 

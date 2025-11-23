@@ -28,16 +28,6 @@ function SiriusGLBModel() {
   return <primitive object={gltf.scene} scale={0.1} />;
 }
 
-// Error boundary component
-function ErrorFallback() {
-  return (
-    <mesh>
-      <sphereGeometry />
-      <meshBasicMaterial color="#ff4444" />
-    </mesh>
-  );
-}
-
 export default function SiriusScene() {
   return (
     <div className="h-screen w-screen bg-black">

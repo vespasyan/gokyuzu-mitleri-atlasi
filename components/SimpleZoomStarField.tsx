@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { Star } from '@/lib/types';
 
 interface Props {
-  stars?: any[];
-  onStarClick?: (s: any) => void;
+  stars?: Star[];
+  onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
 }
 
@@ -36,7 +37,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
     
     console.log('🎯 SimpleZoomStarField: Registering zoom functions');
     
-    (window as any).zoomIn = () => {
+    (window as Window & { zoomIn?: () => void; zoomOut?: () => void }).zoomIn = () => {
       console.log('🔍 Zoom In: Current zoom:', zoom);
       setZoom(prev => {
         const newZoom = Math.min(prev * 1.5, 5);
@@ -45,7 +46,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
       });
     };
     
-    (window as any).zoomOut = () => {
+    (window as Window & { zoomIn?: () => void; zoomOut?: () => void }).zoomOut = () => {
       console.log('🔍 Zoom Out: Current zoom:', zoom);
       setZoom(prev => {
         const newZoom = Math.max(prev * 0.7, 0.3);
@@ -56,8 +57,9 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
     
     console.log('✅ Zoom and pan functions registered successfully!');
     return () => {
-      delete (window as any).zoomIn;
-      delete (window as any).zoomOut;
+      const w = window as Window & { zoomIn?: () => void; zoomOut?: () => void };
+      delete w.zoomIn;
+      delete w.zoomOut;
     };
   }, [zoom, isInitialized]);
 
@@ -139,7 +141,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
   };
 
   // Calculate star size based on actual stellar radius
-  const getStarSize = (star: any, index: number) => {
+  const getStarSize = (star: Star) => {
     // Star radius data (in solar radii) from the JSON
     const starRadii = {
       'sirius': 1.71,     // Çoban Yıldızı
@@ -311,9 +313,10 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
         })}
 
         {/* Interactive main stars - positioned in 3D space */}
-        {stars.map((star, index) => {
+        {stars.map((star) => {
           // Position the 5 mythology stars in true 3D space on a sphere surface with varied depths
-          const radius = 200 + index * 35; // Even more varied depths for maximum separation
+          const starIndex = stars.indexOf(star);
+          const radius = 200 + starIndex * 35; // Even more varied depths for maximum separation
           
           // Spread stars far apart with front-facing positions for better visibility
           const sphericalPositions = [
@@ -324,7 +327,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
             { theta: -Math.PI * 0.3, phi: Math.PI * 0.5 }   // Front left - Capella (Ebe Ana Yıldızı)
           ];
           
-          const pos = sphericalPositions[index] || { theta: index * 0.3, phi: Math.PI * 0.4 };
+          const pos = sphericalPositions[starIndex] || { theta: starIndex * 0.3, phi: Math.PI * 0.4 };
           
           // Convert spherical coordinates to 3D Cartesian
           const x = radius * Math.sin(pos.phi) * Math.cos(pos.theta);
@@ -333,7 +336,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
           
           return (
             <div
-              key={star.id || index}
+              key={star.id || starIndex}
               className="absolute star-sphere-container"
               style={{
                 left: '50%',
@@ -355,7 +358,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
                     ? '2px solid rgba(255, 215, 0, 0.8)' 
                     : 'none',
                   cursor: 'pointer',
-                  zIndex: 10000 + index,
+                  zIndex: 10000 + starIndex,
                   transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
                   left: '50%',
                   top: '50%',
@@ -403,8 +406,8 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
               <div
                 className="star-sphere transition-all duration-300 pointer-events-none"
                 style={{
-                  width: `${getStarSize(star, index)}px`,
-                  height: `${getStarSize(star, index)}px`,
+                  width: `${getStarSize(star)}px`,
+                  height: `${getStarSize(star)}px`,
                   background: selectedStarId === star.id 
                     ? 'radial-gradient(circle at 30% 30%, #ffd700, #ffed4e, #d4af37, #b8860b)'
                     : 'radial-gradient(circle at 30% 30%, #ffffff, #e6f3ff, #4a90ff, #1e40af)',

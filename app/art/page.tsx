@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { SiriusPainting, KayraHanSculpture, SimurgDigital, DemirKazikInstallation, EbeAnaArtwork } from '@/components/art/MythologyArtworks'
 
 export const metadata: Metadata = {
   title: 'Çağdaş Sanat Yorumları',
@@ -95,6 +94,7 @@ export default function ArtPage() {
               {/* Beautiful Artwork */}
               <div className="aspect-video bg-gradient-to-br from-dark-400 to-dark-300 flex items-center justify-center overflow-hidden rounded-t-lg">
                 {artwork.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img 
                     src={artwork.imageUrl} 
                     alt={artwork.title}
@@ -132,7 +132,7 @@ export default function ArtPage() {
                 <div className="bg-dark-300/30 rounded-lg p-4 mb-4">
                   <h3 className="text-star-400 font-semibold mb-2">Sanatçı Yorumu</h3>
                   <p className="text-gray-300 text-sm italic">
-                    "{artwork.interpretation}"
+                    &ldquo;{artwork.interpretation}&rdquo;
                   </p>
                 </div>
 

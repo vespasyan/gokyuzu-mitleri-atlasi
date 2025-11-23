@@ -9,15 +9,9 @@ function DiagnosticGLBModel() {
   const hasLogged = useRef(false);
   const hasFileChecked = useRef(false);
 
-  // Always call useGLTF at the top level
-  let gltf = null;
-  let loadError = null;
-  
-  try {
-    gltf = useGLTF("/models/sirius/sirius.glb");
-  } catch (error) {
-    loadError = error;
-  }
+  // Always call useGLTF at the top level - no conditional logic before hooks
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const gltf = useGLTF("/models/sirius/sirius.glb");
 
   // File accessibility test - always run useEffect
   useEffect(() => {
@@ -57,15 +51,7 @@ function DiagnosticGLBModel() {
       
       console.log("=== GLB LOADER ANALYSIS ===");
       
-      if (loadError) {
-        console.error("useGLTF threw error:", loadError);
-        console.error("Error type:", typeof loadError);
-        console.error("Error details:", {
-          message: (loadError as any)?.message,
-          stack: (loadError as any)?.stack,
-          constructor: (loadError as any)?.constructor?.name
-        });
-      } else if (gltf) {
+      if (gltf) {
         console.log("useGLTF returned:", typeof gltf);
         console.log("GLB object keys:", Object.keys(gltf || {}));
         console.log("Has scene:", !!gltf?.scene);
@@ -83,17 +69,7 @@ function DiagnosticGLBModel() {
       }
       console.log("===============================");
     }
-  }, [gltf, loadError]);
-
-  // Handle loading error
-  if (loadError) {
-    return (
-      <mesh>
-        <sphereGeometry />
-        <meshBasicMaterial color="#ff0000" />
-      </mesh>
-    );
-  }
+  }, [gltf]);
 
   // Handle missing scene
   if (!gltf?.scene) {

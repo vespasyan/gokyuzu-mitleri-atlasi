@@ -3,6 +3,7 @@
 import React, { Suspense } from "react";
 import SimpleStarField from './SimpleStarField';
 import { ErrorBoundary } from './ErrorBoundary';
+import { Star } from '@/lib/types';
 
 // Lazy import with fallback to SimpleStarField
 const StarFieldCanvasImpl = React.lazy(() => 
@@ -12,8 +13,8 @@ const StarFieldCanvasImpl = React.lazy(() =>
 );
 
 interface Props {
-  stars?: any[];
-  onStarClick?: (s: any) => void;
+  stars?: Star[];
+  onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
 }
 
@@ -37,11 +38,13 @@ export default function StarFieldCanvasWrapper({ stars = [], onStarClick, select
         console.log('   StarFieldCanvas failed to load - using SimpleStarField');
         
         // Add fake zoom functions for CSS mode
-        (window as any).zoomIn = () => {
+        type WindowWithZoom = Window & typeof globalThis & { zoomIn?: () => void; zoomOut?: () => void };
+        const w = window as WindowWithZoom;
+        w.zoomIn = () => {
           console.log('📏 CSS Fallback: Zoom in attempt');
           alert('3D scene failed to load - zoom not available');
         };
-        (window as any).zoomOut = () => {
+        w.zoomOut = () => {
           console.log('📏 CSS Fallback: Zoom out attempt');  
           alert('3D scene failed to load - zoom not available');
         };

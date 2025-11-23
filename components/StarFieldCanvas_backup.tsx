@@ -54,7 +54,7 @@ function StarPoint({ star, isSelected, onClick }: StarPointProps) {
     }
   })
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: Parameters<NonNullable<JSX.IntrinsicElements['mesh']['onClick']>>[0]) => {
     e.stopPropagation()
     onClick(star)
   }
