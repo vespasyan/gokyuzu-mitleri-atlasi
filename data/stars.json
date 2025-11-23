@@ -1,0 +1,245 @@
+{
+  "stars": [
+    {
+      "id": "sirius",
+      "name": "Sirius",
+      "turkishName": "Çoban Yıldızı",
+      "constellation": "Canis Major",
+      "coordinates": {
+        "ra": 6.75,
+        "dec": -16.7,
+        "x": -12.0,
+        "y": 5.0,
+        "z": -18.0
+      },
+      "magnitude": -1.46,
+      "spectralClass": "A1V",
+      "color": "#9bb0ff",
+      "myth": {
+        "title": "Çoban Yıldızı ve Sürülerin Koruyucusu",
+        "story": "Türk mitolojisinde Çoban Yıldızı, çobanların en değerli yıldızıdır. Gece gökyüzünde en parlak şekilde görünen bu yıldız, kaybolmuş hayvanları bulan ve sürüleri koruyan kutsal ışıktır. Efsaneye göre, bu yıldız Gök Tengri'nin gözüdür ve çobanların yolunu aydınlatır. Çobanlar bu yıldızın altında gecelerini geçirir ve onun koruması altında huzur bulurlar.",
+        "origin": "Türk Mitolojisi",
+        "characters": ["Gök Tengri", "Çoban", "Sürü Koruyucusu"],
+        "themes": ["Koruma", "Bereket", "Hayvancılık"],
+        "moralLesson": "Doğanın işaretlerini okumak ve ona saygı duymak gerekir.",
+        "relatedStars": ["vega", "polaris"]
+      },
+      "astronomy": {
+        "distance": "8.6 ışık yılı",
+        "temperature": "9,940 K",
+        "mass": "2.02 Güneş kütlesi",
+        "radius": "1.71 Güneş yarıçapı",
+        "age": "242 milyon yıl",
+        "facts": [
+          "Gece gökyüzünün en parlak yıldızıdır",
+          "Aslında ikili yıldız sistemidir",
+          "Beyaz cüce eşi Sirius B ile döner"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "/images/Sirius_system.gif",
+            "alt": "Sirius yıldız sistemi",
+            "caption": "Sirius A ve Sirius B ikili yıldız sistemi",
+            "type": "animation"
+          },
+          {
+            "url": "/images/sirius_watercolor.png",
+            "alt": "Çoban Yıldızı sanat eseri",
+            "caption": "Türk sanatında Çoban Yıldızı",
+            "type": "artwork"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vega",
+      "name": "Vega",
+      "turkishName": "Kayra Han Yıldızı",
+      "constellation": "Lyra",
+      "coordinates": {
+        "ra": 18.62,
+        "dec": 38.78,
+        "x": 18.0,
+        "y": 12.0,
+        "z": 8.0
+      },
+      "magnitude": 0.03,
+      "spectralClass": "A0V",
+      "color": "#9bb0ff",
+      "myth": {
+        "title": "Kayra Han'ın Işığı",
+        "story": "Türk mitolojisinde Kayra Han, yaratıcı tanrıdır ve gökyüzünün efendisidir. Vega yıldızı, Kayra Han'ın tahtının üzerinde parlayan kutsal ışık olarak kabul edilir. Bu yıldız, yol kaybeden ruhları doğru yola iletir ve bilgelik arayanlara ilham verir. Şamanlar bu yıldızın altında ayinlerini yapar.",
+        "origin": "Türk Mitolojisi",
+        "characters": ["Kayra Han", "Şaman", "Yolcu Ruhlar"],
+        "themes": ["Yaratım", "Bilgelik", "Rehberlik"],
+        "moralLesson": "Bilgelik arayanlar yollarını her zaman bulur.",
+        "relatedStars": ["altair", "deneb"]
+      },
+      "astronomy": {
+        "distance": "25 ışık yılı",
+        "temperature": "9,602 K",
+        "mass": "2.1 Güneş kütlesi",
+        "radius": "2.36 Güneş yarıçapı",
+        "age": "455 milyon yıl",
+        "facts": [
+          "Kuzey yarımkürede kutup yıldızı olmuştur",
+          "Fotoğrafı çekilen ilk yıldızlardan biridir",
+          "12,000 yıl sonra tekrar kutup yıldızı olacak"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "/images/Vega_yıldızı.png",
+            "alt": "Vega yıldızı",
+            "caption": "Lyra takımyıldızındaki parlak Vega",
+            "type": "astronomy"
+          }
+        ]
+      }
+    },
+    {
+      "id": "altair",
+      "name": "Altair",
+      "turkishName": "Kartal Yıldızı",
+      "constellation": "Aquila",
+      "coordinates": {
+        "ra": 19.85,
+        "dec": 8.87,
+        "x": 14.0,
+        "y": -8.0,
+        "z": 16.0
+      },
+      "magnitude": 0.77,
+      "spectralClass": "A7V",
+      "color": "#ffd2a1",
+      "myth": {
+        "title": "Simurg'un Kalbi",
+        "story": "Türk mitolojisinde Altair, efsanevi kuş Simurg'un kalbini temsil eder. Simurg, tüm kuşların padişahı olarak bilinir ve bu yıldız onun yaşam gücünün kaynağıdır. Savaşçılar bu yıldızı görünce cesaretlenir, çünkü Simurg'un koruması altında olduklarını bilirler. Kartal gibi yüksek uçmak isteyen ruhlar bu yıldızdan güç alır.",
+        "origin": "Türk Mitolojisi",
+        "characters": ["Simurg", "Savaşçı", "Kartal Ruhu"],
+        "themes": ["Cesaret", "Özgürlük", "Yüksek İdeal"],
+        "moralLesson": "Cesaret ve azim ile her engel aşılabilir.",
+        "relatedStars": ["vega", "deneb"]
+      },
+      "astronomy": {
+        "distance": "16.7 ışık yılı",
+        "temperature": "7,550 K",
+        "mass": "1.79 Güneş kütlesi",
+        "radius": "1.63 Güneş yarıçapı",
+        "age": "1.2 milyar yıl",
+        "facts": [
+          "Çok hızlı döner, saniyede 286 km",
+          "Yaz Üçgeni'nin bir köşesidir",
+          "En yakın parlak yıldızlardan biridir"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "/images/Altair_yıldızı.png",
+            "alt": "Altair yıldızı",
+            "caption": "Aquila takımyıldızının ana yıldızı Altair",
+            "type": "astronomy"
+          }
+        ]
+      }
+    },
+    {
+      "id": "polaris",
+      "name": "Polaris",
+      "turkishName": "Demir Kazık",
+      "constellation": "Ursa Minor",
+      "coordinates": {
+        "ra": 2.53,
+        "dec": 89.26,
+        "x": -2.0,
+        "y": 22.0,
+        "z": -5.0
+      },
+      "magnitude": 1.98,
+      "spectralClass": "F7Ib",
+      "color": "#f8f7ff",
+      "myth": {
+        "title": "Göğün Demir Kazığı",
+        "story": "Türk mitolojisine göre, gökyüzü dev bir çadır gibi dünyayı kaplar ve Demir Kazık (Polaris) bu çadırın tam ortasına çakılmış sabitleyici kazıktır. Tüm yıldızlar bu kazık etrafında döner, tıpkı çadır iplerinin kazık etrafında gerilmesi gibi. Göçebe Türkler bu yıldızı yön bulmak için kullanır ve ona 'Değişmeyen Yıldız' derler.",
+        "origin": "Türk Mitolojisi",
+        "characters": ["Göçebe Türk", "Çadır Kurucusu", "Yolcu"],
+        "themes": ["Sabitlik", "Yön", "Güvenlik"],
+        "moralLesson": "Hayatta bir sabit noktan olursa, kaybolmazsın.",
+        "relatedStars": ["sirius", "vega"]
+      },
+      "astronomy": {
+        "distance": "433 ışık yıl",
+        "temperature": "6,015 K",
+        "mass": "5.4 Güneş kütlesi",
+        "radius": "37.5 Güneş yarıçapı",
+        "age": "70 milyon yıl",
+        "facts": [
+          "Kuzey Kutup Yıldızıdır",
+          "Değişken yıldızdır, parlaklığı değişir",
+          "Aslında üçlü yıldız sistemidir"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "/images/Polaris_kutup_yıldızı.png",
+            "alt": "Polaris kutup yıldızı",
+            "caption": "Kuzey gökyüzünün sabit noktası Polaris",
+            "type": "astronomy"
+          }
+        ]
+      }
+    },
+    {
+      "id": "capella",
+      "name": "Capella",
+      "turkishName": "Ebe Ana Yıldızı",
+      "constellation": "Auriga",
+      "coordinates": {
+        "ra": 5.28,
+        "dec": 45.99,
+        "x": -16.0,
+        "y": 18.0,
+        "z": -12.0
+      },
+      "magnitude": 0.08,
+      "spectralClass": "G5III",
+      "color": "#fff4ea",
+      "myth": {
+        "title": "Ebe Ana'nın Yıldızı",
+        "story": "Türk mitolojisinde Capella, Ebe Ana'nın (doğuma yardım eden kutsal kadın) yıldızıdır. Bu yıldız parlak göründüğünde, yeni doğumlar ve bereket zamanının geldiğini müjdeler. Çobanlar sürülerinin çoğalacağını, çiftçiler bol hasat alacaklarını bilirler. Ebe Ana, bu yıldızın ışığıyla dünyaya inen ruhları karşılar.",
+        "origin": "Türk Mitolojisi",
+        "characters": ["Ebe Ana", "Yeni Ruh", "Çoban", "Çiftçi"],
+        "themes": ["Doğum", "Bereket", "Yaşam Döngüsü"],
+        "moralLesson": "Her son, aslında yeni bir başlangıçtır.",
+        "relatedStars": ["sirius", "aldebaran"]
+      },
+      "astronomy": {
+        "distance": "42.9 ışık yıl",
+        "temperature": "4,970 K",
+        "mass": "2.5 Güneş kütlesi",
+        "radius": "11.9 Güneş yarıçapı",
+        "age": "590 milyon yıl",
+        "facts": [
+          "Gökyüzünün altıncı en parlak yıldızıdır",
+          "Dört yıldızdan oluşan sistem",
+          "Kış aylarında çok belirgindir"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "/images/Capella_yıldız_sistemi.png",
+            "alt": "Capella yıldız sistemi",
+            "caption": "Auriga takımyıldızının parlak yıldızı Capella",
+            "type": "astronomy"
+          }
+        ]
+      }
+    }
+  ]
+}

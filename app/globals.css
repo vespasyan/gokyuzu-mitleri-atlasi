@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: theme('colors.gray.200');
+  }
+  
+  body {
+    @apply text-white font-cosmic;
+    background-color: #030315;
+    overflow-x: hidden;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .star-glow {
+    @apply relative;
+  }
+  
+  .star-glow::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    @apply animate-pulse-slow;
+  }
+  
+  .cosmic-gradient {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #3730a3 50%, #4338ca 75%, #4f46e5 100%);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .panel-backdrop {
+    backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  .constellation-line {
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 1;
+    fill: none;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-star-400 focus:ring-offset-2 focus:ring-offset-dark-500;
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}

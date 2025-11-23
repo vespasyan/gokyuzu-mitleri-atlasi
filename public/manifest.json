@@ -1,0 +1,29 @@
+{
+  "name": "Gökyüzü Mitleri Atlası",
+  "short_name": "Gökyüzü Atlası",
+  "description": "Türk mitolojisindeki yıldız hikayeleri ve çağdaş sanat yorumları ile interaktif gökyüzü deneyimi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#eab308",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["education", "entertainment", "lifestyle"],
+  "lang": "tr",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

@@ -1,0 +1,35 @@
+- app
+  - about
+    - page.tsx
+  - art
+    - page.tsx
+  - globals.css
+  - layout.tsx
+  - page.tsx
+  - sirius
+    - page.tsx
+  - sitemap.ts
+  - stories
+    - page.tsx
+- components
+  - Navbar.tsx
+  - SiriusModel.tsx
+  - StarFieldCanvas.tsx
+  - StarInfoPanel.tsx
+- data
+  - stars.json
+- lib
+  - types.ts
+- next-env.d.ts
+- next.config.js
+- package-lock.json
+- package.json
+- postcss.config.js
+- public
+  - manifest.json
+  - models
+    - sirius.glb
+  - robots.txt
+- README.md
+- tailwind.config.js
+- tsconfig.json

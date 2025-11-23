@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# SEO ayarları
+Sitemap: https://gokyuzu-mitleri-atlasi.com/sitemap.xml
+
+# Ana sayfalar
+Allow: /
+Allow: /stories
+Allow: /art
+Allow: /about
+
+# Statik varlıklar
+Allow: /images/
+Allow: /icons/
+Allow: /_next/static/
+
+# API rotaları (eğer varsa)
+Disallow: /api/
+
+# Private dosyalar
+Disallow: /admin/
+Disallow: /.env
+Disallow: /node_modules/
