@@ -6,6 +6,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { visitorId, sessionId, page, isNewSession } = body
 
+    console.log('Track request:', { visitorId, sessionId, page, isNewSession })
+
     if (!visitorId || !sessionId || !page) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -22,6 +24,8 @@ export async function POST(request: NextRequest) {
       visitorId
     )
     const isNewVisitor = !isExistingVisitor
+
+    console.log('Visitor check:', { visitorId, isExistingVisitor, isNewVisitor })
 
     // Use pipeline for atomic operations
     const pipeline = redis.pipeline()
@@ -74,6 +78,8 @@ export async function POST(request: NextRequest) {
 
     // Execute all operations
     await pipeline.exec()
+
+    console.log('Analytics tracked successfully')
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -38,26 +38,40 @@ export default function AnalyticsPage() {
     const loadStats = async () => {
       try {
         // Try to fetch from API
-        const response = await fetch('/api/analytics/stats')
+        console.log('Fetching analytics from API...')
+        const response = await fetch('/api/analytics/stats', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        })
+        
+        console.log('API Response status:', response.status)
+        
         if (response.ok) {
           const data = await response.json()
+          console.log('Analytics data from API:', data)
           setStats({
             totalVisits: data.totalVisits,
             uniqueVisitors: data.uniqueVisitors,
             todayVisits: data.todayVisits,
             bounceRate: data.bounceRate,
-            avgSessionDuration: 0, // Can be calculated later if needed
+            avgSessionDuration: 0,
             pageViews: data.pageViews,
             recentVisits: data.recentVisits,
             dailyStats: data.dailyStats
           })
           return
+        } else {
+          const errorText = await response.text()
+          console.error('API Error:', response.status, errorText)
         }
       } catch (error) {
-        console.log('API not available, using localStorage fallback')
+        console.error('Failed to fetch from API:', error)
       }
 
       // Fallback to localStorage if API fails
+      console.log('Using localStorage fallback')
       try {
         // Total visits
         const totalVisits = parseInt(localStorage.getItem('siteVisits') || '0')

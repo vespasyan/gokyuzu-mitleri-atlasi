@@ -3,6 +3,10 @@ import { redis, analyticsKeys } from '@/lib/redis'
 
 export async function GET() {
   try {
+    console.log('Analytics stats API called')
+    console.log('Redis URL:', process.env.KV_REST_API_URL ? 'Configured' : 'Missing')
+    console.log('Redis Token:', process.env.KV_REST_API_TOKEN ? 'Configured' : 'Missing')
+    
     const today = new Date().toISOString().split('T')[0]
 
     // Get all stats in parallel
@@ -29,6 +33,13 @@ export async function GET() {
       redis.lrange(analyticsKeys.recentVisits, 0, 49),
       redis.keys('session:*'),
     ])
+    
+    console.log('Stats fetched:', {
+      totalVisits,
+      uniqueVisitorsCount,
+      todayVisits,
+      sessionCount: sessionKeys.length
+    })
 
     // Get daily stats for last 7 days
     const dailyStats = await Promise.all(
