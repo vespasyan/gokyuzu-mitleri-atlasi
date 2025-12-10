@@ -9,6 +9,8 @@ const nextConfig = {
       },
     ],
   },
+  // Turbopack için boş config ekleyerek uyarıyı kapat
+  turbopack: {},
   webpack: (config) => {
     // Three.js için gerekli ayarlar
     config.externals = [...(config.externals || []), { canvas: 'canvas' }];
