@@ -7,7 +7,6 @@
   "directories": {
     "lib": "lib"
   },
-
   "dependencies": {
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.15.14",
@@ -221,7 +220,7 @@
     "nanoid": "^3.3.11",
     "napi-postinstall": "^0.3.3",
     "natural-compare": "^1.4.0",
-    "next": "^15.0.3",
+    "next": "^16.0.8",
     "node-releases": "^2.0.21",
     "normalize-path": "^3.0.0",
     "normalize-range": "^0.1.2",
@@ -360,15 +359,12 @@
     "yocto-queue": "^0.1.0",
     "zustand": "^5.0.8"
   },
-
-
   "devDependencies": {
     "@types/node": "^20.19.15",
     "@types/react": "^18.3.24",
     "@types/react-dom": "^18.3.7",
     "@types/three": "^0.180.0"
   },
-
   "scripts": {
     "dev": "next dev",
     "build": "next build",
