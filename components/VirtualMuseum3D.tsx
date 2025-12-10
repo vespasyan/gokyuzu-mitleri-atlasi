@@ -223,12 +223,15 @@ export default function VirtualMuseum3D() {
     // Distribute artworks on all 4 walls
     let imageIndex = 0
     
-    artworks.forEach((artwork, artIndex) => {
-      artwork.images.forEach((imagePath, imgIndex) => {
+    artworks.forEach((artwork) => {
+      artwork.images.forEach((imagePath) => {
         console.log(`Loading image ${imageIndex + 1}/${totalImages}: ${imagePath}`)
         
         // Calculate position based on image index (distribute across all walls)
-        let posX = 0, posY = 2.5, posZ = 0, rotationY = 0
+        let posX = 0
+        const posY = 2.5
+        let posZ = 0
+        let rotationY = 0
         
         // Back wall - 5 images
         if (imageIndex < 5) {
@@ -403,8 +406,10 @@ export default function VirtualMuseum3D() {
         renderer.dispose()
       }
       
-      if (containerRef.current && renderer.domElement.parentElement === containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement)
+      // Store container ref value before cleanup
+      const container = containerRef.current
+      if (container && renderer.domElement.parentElement === container) {
+        container.removeChild(renderer.domElement)
       }
     }
   }, [])
