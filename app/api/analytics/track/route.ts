@@ -3,6 +3,15 @@ import { redis, analyticsKeys } from '@/lib/redis'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Redis is properly configured
+    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+      console.error('Redis not configured properly')
+      return NextResponse.json(
+        { error: 'Redis not configured' },
+        { status: 503 }
+      )
+    }
+
     const body = await request.json()
     const { visitorId, sessionId, page, isNewSession } = body
 
@@ -82,10 +91,18 @@ export async function POST(request: NextRequest) {
     console.log('Analytics tracked successfully')
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Analytics tracking error:', error)
+    console.error('Error details:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name
+    })
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        details: error?.message || 'Unknown error'
+      },
       { status: 500 }
     )
   }

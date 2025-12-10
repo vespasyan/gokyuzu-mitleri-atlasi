@@ -7,6 +7,15 @@ export async function GET() {
     console.log('Redis URL:', process.env.KV_REST_API_URL ? 'Configured' : 'Missing')
     console.log('Redis Token:', process.env.KV_REST_API_TOKEN ? 'Configured' : 'Missing')
     
+    // Check if Redis is properly configured
+    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+      console.error('Redis not configured properly')
+      return NextResponse.json(
+        { error: 'Redis not configured' },
+        { status: 503 }
+      )
+    }
+    
     const today = new Date().toISOString().split('T')[0]
 
     // Get all stats in parallel
@@ -22,16 +31,16 @@ export async function GET() {
       recentVisitsRaw,
       sessionKeys,
     ] = await Promise.all([
-      redis.get(analyticsKeys.totalVisits),
-      redis.scard(analyticsKeys.uniqueVisitors),
-      redis.get(analyticsKeys.dailyVisits(today)),
-      redis.get(analyticsKeys.pageViews('home')),
-      redis.get(analyticsKeys.pageViews('stories')),
-      redis.get(analyticsKeys.pageViews('art')),
-      redis.get(analyticsKeys.pageViews('about')),
-      redis.get(analyticsKeys.pageViews('contact')),
-      redis.lrange(analyticsKeys.recentVisits, 0, 49),
-      redis.keys('session:*'),
+      redis.get(analyticsKeys.totalVisits).catch(e => { console.error('Error getting totalVisits:', e); return null; }),
+      redis.scard(analyticsKeys.uniqueVisitors).catch(e => { console.error('Error getting uniqueVisitors:', e); return 0; }),
+      redis.get(analyticsKeys.dailyVisits(today)).catch(e => { console.error('Error getting dailyVisits:', e); return null; }),
+      redis.get(analyticsKeys.pageViews('home')).catch(e => null),
+      redis.get(analyticsKeys.pageViews('stories')).catch(e => null),
+      redis.get(analyticsKeys.pageViews('art')).catch(e => null),
+      redis.get(analyticsKeys.pageViews('about')).catch(e => null),
+      redis.get(analyticsKeys.pageViews('contact')).catch(e => null),
+      redis.lrange(analyticsKeys.recentVisits, 0, 49).catch(e => { console.error('Error getting recentVisits:', e); return []; }),
+      redis.keys('session:*').catch(e => { console.error('Error getting sessions:', e); return []; }),
     ])
     
     console.log('Stats fetched:', {
@@ -104,14 +113,19 @@ export async function GET() {
       dailyStats,
       recentVisits: recentVisits.slice(0, 20),
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Analytics stats error:', error)
+    console.error('Error details:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name
+    })
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        details: error?.message || 'Unknown error'
+      },
       { status: 500 }
     )
   }
 }
-
-// Enable Edge Runtime for faster response
-export const runtime = 'edge'
