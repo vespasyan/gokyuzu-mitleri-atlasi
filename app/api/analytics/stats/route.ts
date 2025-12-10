@@ -4,11 +4,10 @@ import { redis, analyticsKeys } from '@/lib/redis'
 export async function GET() {
   try {
     console.log('Analytics stats API called')
-    console.log('Redis URL:', process.env.KV_REST_API_URL ? 'Configured' : 'Missing')
-    console.log('Redis Token:', process.env.KV_REST_API_TOKEN ? 'Configured' : 'Missing')
+    console.log('Redis URL:', process.env.KV_URL ? 'Configured' : 'Missing')
     
     // Check if Redis is properly configured
-    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+    if (!process.env.KV_URL) {
       console.error('Redis not configured properly')
       return NextResponse.json(
         { error: 'Redis not configured' },

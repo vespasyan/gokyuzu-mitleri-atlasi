@@ -1,17 +1,20 @@
-import { Redis } from '@upstash/redis'
+import Redis from 'ioredis'
 
 // Validate environment variables
-if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
-  console.error('Redis environment variables missing:', {
-    url: !!process.env.KV_REST_API_URL,
-    token: !!process.env.KV_REST_API_TOKEN
-  })
+if (!process.env.KV_URL) {
+  console.error('Redis KV_URL environment variable missing')
 }
 
-// Initialize Redis client with Vercel KV credentials
-export const redis = new Redis({
-  url: process.env.KV_REST_API_URL || '',
-  token: process.env.KV_REST_API_TOKEN || '',
+// Initialize Redis client with Upstash credentials
+export const redis = new Redis(process.env.KV_URL || '', {
+  maxRetriesPerRequest: 3,
+  enableReadyCheck: false,
+  lazyConnect: true,
+})
+
+// Test connection
+redis.connect().catch((err) => {
+  console.error('Redis connection error:', err)
 })
 
 // Helper functions for analytics
