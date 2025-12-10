@@ -33,9 +33,31 @@ export default function AnalyticsPage() {
     bounceRate: 0
   })
 
-  // Load stats from localStorage
+  // Load stats from API (with localStorage fallback)
   useEffect(() => {
-    const loadStats = () => {
+    const loadStats = async () => {
+      try {
+        // Try to fetch from API
+        const response = await fetch('/api/analytics/stats')
+        if (response.ok) {
+          const data = await response.json()
+          setStats({
+            totalVisits: data.totalVisits,
+            uniqueVisitors: data.uniqueVisitors,
+            todayVisits: data.todayVisits,
+            bounceRate: data.bounceRate,
+            avgSessionDuration: 0, // Can be calculated later if needed
+            pageViews: data.pageViews,
+            recentVisits: data.recentVisits,
+            dailyStats: data.dailyStats
+          })
+          return
+        }
+      } catch (error) {
+        console.log('API not available, using localStorage fallback')
+      }
+
+      // Fallback to localStorage if API fails
       try {
         // Total visits
         const totalVisits = parseInt(localStorage.getItem('siteVisits') || '0')
