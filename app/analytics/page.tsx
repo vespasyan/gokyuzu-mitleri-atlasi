@@ -13,6 +13,8 @@ export default function AnalyticsPage() {
     totalVisits: 0,
     uniqueVisitors: 0,
     todayVisits: 0,
+    bounceRate: 0,
+    avgSessionDuration: 0,
     pageViews: {
       home: 0,
       stories: 0,
@@ -27,7 +29,8 @@ export default function AnalyticsPage() {
   const [animatedStats, setAnimatedStats] = useState({
     totalVisits: 0,
     uniqueVisitors: 0,
-    todayVisits: 0
+    todayVisits: 0,
+    bounceRate: 0
   })
 
   // Load stats from localStorage
@@ -37,9 +40,24 @@ export default function AnalyticsPage() {
         // Total visits
         const totalVisits = parseInt(localStorage.getItem('siteVisits') || '0')
         
-        // Unique visitors (stored as array of IPs or session IDs)
+        // Unique visitors (stored as array of visitor IDs)
         const visitorsData = localStorage.getItem('uniqueVisitors')
         const uniqueVisitors = visitorsData ? JSON.parse(visitorsData).length : 0
+        
+        // Calculate bounce rate from sessions
+        const sessionsData = localStorage.getItem('sessions')
+        const sessions = sessionsData ? JSON.parse(sessionsData) : []
+        const bouncedSessions = sessions.filter((s: any) => s.pages && s.pages.length === 1).length
+        const bounceRate = sessions.length > 0 ? (bouncedSessions / sessions.length) * 100 : 0
+        
+        // Calculate average session duration
+        const now = Date.now()
+        const avgSessionDuration = sessions.length > 0 
+          ? sessions.reduce((sum: number, s: any) => {
+              const duration = s.endTime ? s.endTime - s.startTime : now - s.startTime
+              return sum + duration
+            }, 0) / sessions.length / 1000 // Convert to seconds
+          : 0
         
         // Today's visits
         const todayKey = new Date().toDateString()
@@ -77,6 +95,8 @@ export default function AnalyticsPage() {
           totalVisits,
           uniqueVisitors,
           todayVisits,
+          bounceRate,
+          avgSessionDuration,
           pageViews,
           recentVisits,
           dailyStats
@@ -117,7 +137,10 @@ export default function AnalyticsPage() {
     animateNumber(stats.todayVisits, (val) => 
       setAnimatedStats(prev => ({ ...prev, todayVisits: val }))
     )
-  }, [stats.totalVisits, stats.uniqueVisitors, stats.todayVisits])
+    animateNumber(stats.bounceRate, (val) => 
+      setAnimatedStats(prev => ({ ...prev, bounceRate: val }))
+    )
+  }, [stats.totalVisits, stats.uniqueVisitors, stats.todayVisits, stats.bounceRate])
   
   // Calculate page view percentages
   const totalPageViews = Object.values(stats.pageViews).reduce((a, b) => a + b, 0)
@@ -408,16 +431,16 @@ export default function AnalyticsPage() {
             <div className="text-sm text-gray-400">sayfa/oturum</div>
           </div>
           
-          {/* Bounce Rate Simulation */}
+          {/* Bounce Rate */}
           <div className="bg-gradient-to-br from-rose-500/20 to-rose-600/10 backdrop-blur-lg rounded-xl p-6 border border-rose-500/30">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-3xl">🎯</span>
               <h3 className="text-lg font-semibold text-white">Hemen Çıkma</h3>
             </div>
             <div className="text-3xl font-bold text-rose-400 mb-2">
-              {totalPageViews > 0 ? Math.max(10, Math.min(40, 100 - (totalPageViews / stats.totalVisits) * 50)).toFixed(0) : '0'}%
+              {animatedStats.bounceRate.toFixed(1)}%
             </div>
-            <div className="text-sm text-gray-400">tek sayfa görüntüleme</div>
+            <div className="text-sm text-gray-400">tek sayfa ziyaretleri</div>
           </div>
           
           {/* Top Page */}
