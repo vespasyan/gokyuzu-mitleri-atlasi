@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/Navbar'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -65,6 +66,7 @@ export default function RootLayout({
   return (
     <html lang="tr" className={inter.variable}>
       <body className="min-h-screen bg-dark-500 text-white antialiased">
+        <AnalyticsTracker />
         <Navbar />
         <main className="relative">
           {children}

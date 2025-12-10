@@ -8,7 +8,7 @@ const stars = starsData.stars as Star[]
 
 const artworks = [
   {
-    id: 'sirius-painting',
+    id: 'sirius-light',
     title: 'Çoban Yıldızı\'nın Işığı',
     artist: 'Şeyma Şimşek',
     medium: 'Tuval üzerine yağlıboya',
@@ -16,7 +16,13 @@ const artworks = [
     description: 'Şeyma Şimşek\'in "Çoban Yıldızı\'nın Işığı" adlı 2023 tarihli tablosu, Sirius\'un Türk mitolojisindeki bereket ve yol göstericilik sembolünü çağdaş bir estetikle yeniden yorumluyor. Sanatçı, altın tonlarda geometrik formlar ve titreşen mavi dokular aracılığıyla yıldızın hem kozmos hem insan ruhu üzerindeki ışığını görünür kılıyor. Geleneksel motiflerle modern soyutlama tekniklerini buluşturan eser, gökyüzünün kadim bilgeliğini bugünün duyarlılığıyla bir araya getiriyor. İzleyici, bu parlak merkez etrafında hem içsel bir yolculuğa hem de kültürel belleğin derinliklerine davet ediliyor.',
     interpretation: 'Eserde, Çoban Yıldızı\'nın bereket getiren gücü, altın tonlarla işlenmiş geometrik formlarla vurgulanıyor.',
     relatedStars: ['sirius'],
-    imageUrl: '/images/sirius-light.png',
+    imageUrl: '/images/Vr_images/sirius-light.png',
+    gallery: [
+      '/images/Vr_images/sirius-light.png',
+      '/images/Vr_images/sirius_light_2.png',
+      '/images/Vr_images/sirius_light_3.png',
+      '/images/Vr_images/sirius_light_4.png'
+    ],
     dimensions: '120cm x 80cm',
     techniques: ['Yağlıboya', 'Altın varak', 'Geleneksel motifler'],
     inspiration: 'Anadolu çoban kültürü ve yıldız gözlemciliği',
@@ -32,7 +38,7 @@ const artworks = [
     price: '₺45,000'
   },
   {
-    id: 'kayra-han-sculpture',
+    id: 'kayra-han-throne',
     title: 'Kayra Han\'ın Tahtı',
     artist: 'Arya Deniz Altıokka',
     medium: 'Tuval üzerine yağlıboya',
@@ -40,7 +46,13 @@ const artworks = [
     description: 'Arya Deniz Altıokka\'nın "Kayra Han\'ın Tahtı" adlı 2024 tarihli yağlıboya eseri, Türk mitolojisinde evrenin yaratıcı gücü olarak anılan Kayra Han\'ı kozmik bir taht sembolü üzerinden yeniden yorumluyor. Sanatçı, yoğun fırça dokularıyla gökyüzü ve yeryüzü arasındaki enerjik geçişi resmederken, bronz tonların sıcaklığıyla mistik bir ışık etkisi yaratıyor. Kompozisyonun merkezindeki taht formu, hem ilahi düzenin simgesi hem de insanın evrenle kurduğu ruhsal bağın metaforu olarak öne çıkıyor. Eser, kadim Türk kozmolojisinin derin anlamlarını çağdaş bir plastik dille aktarırken, izleyiciyi maddenin ötesindeki yaratıcı kudreti hissetmeye davet ediyor.',
     interpretation: 'Eser, gökyüzündeki düzenin ve yaratıcı gücün fiziksel bir temsilini sunuyor.',
     relatedStars: ['vega'],
-    imageUrl: '/images/kayra-han-tahti.png',
+    imageUrl: '/images/Vr_images/kayra-han-tahti.png',
+    gallery: [
+      '/images/Vr_images/kayra-han-tahti.png',
+      '/images/Vr_images/kayra-han-tahti_2.png',
+      '/images/Vr_images/kayra-han-tahti_3.png',
+      '/images/Vr_images/kayra-han-tahti_4.png'
+    ],
     dimensions: '120cm x 80cm',
     techniques: ['Yağlıboya', 'Altın varak', 'Geleneksel motifler'],
     inspiration: 'Türk şamanlığı ve kozmik düzen anlayışı',
@@ -56,7 +68,7 @@ const artworks = [
     price: '₺125,000'
   },
   {
-    id: 'simurg-digital',
+    id: 'diving-stars',
     title: 'Dijital Simurg',
     artist: 'Mısra Oya UZEL',
     medium: 'Dijital sanat',
@@ -64,7 +76,13 @@ const artworks = [
     description: '“Dijital Simurg”, Altair yıldızı ile Simurg mitinin kesişiminden doğan çağdaş bir dijital sanat eseridir. Eser, kadim bilgeliği temsil eden Simurg figürünü ışık, hareket ve algoritmik formlar aracılığıyla yeniden yorumlayarak mitolojik bir varlığın dijital çağda nasıl beden bulabileceğini araştırır. Etkileşimli ışık geçişleri, izleyicinin varlığına duyarlı biçimde değişerek mitin dönüşüm, yeniden doğuş ve kolektif bilgelik temalarını görünür kılar. Böylece “Dijital Simurg”, hem geçmişe açılan bir kapı hem de teknolojinin sunduğu yeni bir anlatı alanı olarak konumlanır.',
     interpretation: 'Eser antik bilginin çağdaş teknoloji ile nasıl yeniden canlanabileceğini gösteriyor.',
     relatedStars: ['altair'],
-    imageUrl: '/images/DS.png',
+    imageUrl: '/images/Vr_images/DS.png',
+    gallery: [
+      '/images/Vr_images/DS.png',
+      '/images/Vr_images/DS_2.png',
+      '/images/Vr_images/DS_3.png',
+      '/images/Vr_images/DS_4.png'
+    ],
     dimensions: 'Değişken boyutlar',
     techniques: ['Generative art', 'Interaktif sensörler', 'LED projeksiyon'],
     inspiration: 'Yapay zeka ve geleneksel Türk mitolojisi',
@@ -80,7 +98,7 @@ const artworks = [
     price: 'Edition 3/5'
   },
   {
-    id: 'demir-kazik-installation',
+    id: 'demir-kazik',
     title: 'Göğün Demir Kazığı',
     artist: 'Yağmur DUMAN',
     medium: 'Karma teknik',
@@ -88,7 +106,13 @@ const artworks = [
     description: '“Göğün Demir Kazığı”, Polaris yıldızının Türk mitolojisindeki merkez ve yön tayini sembolünü mekânsal bir deneyime dönüştüren büyük ölçekli bir enstalasyondur. Eser, göğün eksenini temsil eden bu kutsal kavramı, metalik yüzeyler, gerilim hatları ve ışık odakları aracılığıyla yeniden kurgulayarak izleyiciyi hem fiziksel hem de kültürel bir merkez arayışına davet eder. Yapının yükselen formu, kadim kozmogonilerin evren tasavvurunu çağrıştırırken; iç mekândaki boşluk ve gölge ilişkileri, modern bireyin kökleriyle kurduğu bağa dair sezgisel bir yolculuk sunar. Böylece enstalasyon, hem mitolojik hem de çağdaş bir “eksensel dünya” yeniden inşası niteliği taşır.',
     interpretation: 'Eser, izleyiciyi çadır kavramı üzerinden kendi kültürel köklerini sorgulamaya davet ediyor.',
     relatedStars: ['polaris'],
-    imageUrl: '/images/GDK.png',
+    imageUrl: '/images/Vr_images/GDK.png',
+    gallery: [
+      '/images/Vr_images/GDK.png',
+      '/images/Vr_images/GDK_2.png',
+      '/images/Vr_images/GDK_3.png',
+      '/images/Vr_images/GDK_4.png'
+    ],
     dimensions: '100cm x 150cm',
     techniques: ['Karışık Teknik'],
     inspiration: 'Göçebe yaşam kültürü ve navigasyon sanatı',
@@ -104,7 +128,7 @@ const artworks = [
     price: 'Satışta değil'
   },
   {
-    id: 'ebe-ana-fertility',
+    id: 'ebe-ana',
     title: 'Ebe Ana\'nın Bereketi',
     artist: 'Alperen AKDAĞ',
     medium: 'Karma teknik',
@@ -112,7 +136,13 @@ const artworks = [
     description: '“Ebe Ana’nın Bereketi”, Capella yıldızının doğurganlık ve yaşam döngüsüyle ilişkilendirilen mitolojik anlamını büyük ölçekli bir duvar resmi üzerinden yorumlayan kapsamlı bir çalışmadır. Eserde, Ebe Ana figürü koruyucu ve besleyici bir güç olarak merkezde konumlandırılırken; etrafında yer alan organik formlar, toprak ve gökyüzü arasındaki sürekli yenilenmeyi simgeler. Zengin renk geçişleri ve ritmik çizgiler, yaşamın sürekliliğini ve doğanın bereketini görsel bir akışa dönüştürür. Böylece duvar resmi, izleyiciyi hem mitolojik bir anlatıya hem de evrensel bir yaratılış temasına bağlayan güçlü bir görsel alan yaratır.',
     interpretation: 'Eser, yaşam döngüsünün kutsal anlarını ve Ebe Ana\'nın koruyucu gücünü görselleştiriyor.',
     relatedStars: ['capella'],
-    imageUrl: '/images/EAB.png',
+    imageUrl: '/images/Vr_images/EAB.png',
+    gallery: [
+      '/images/Vr_images/EAB.png',
+      '/images/Vr_images/EAB_2.png',
+      '/images/Vr_images/EAB_3.png',
+      '/images/Vr_images/EAB_4.png'
+    ],
     dimensions: '70cm x 100cm',
     techniques: ['Akrilik boya', 'Altın varak', 'Doğal pigmentler'],
     inspiration: 'Anadolu kadın kültürü ve doğurganlık ritüelleri',
@@ -206,6 +236,25 @@ export default async function ArtworkDetailPage({ params }: Props) {
                 )}
               </div>
             </div>
+
+            {/* Gallery Grid */}
+            {artwork.gallery && artwork.gallery.length > 1 && (
+              <div className="bg-dark-400/30 backdrop-blur-lg rounded-lg p-6 border border-white/10">
+                <h3 className="text-xl font-bold text-white mb-4">Galeri</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {artwork.gallery.map((image, index) => (
+                    <div key={index} className="bg-dark-300 rounded-lg overflow-hidden border border-white/10 hover:border-star-400/50 transition-all cursor-pointer group">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={image} 
+                        alt={`${artwork.title} - Görsel ${index + 1}`}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Artwork Info */}
             <div className="bg-dark-400/30 backdrop-blur-lg rounded-lg p-6 border border-white/10">

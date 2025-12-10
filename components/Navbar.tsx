@@ -11,6 +11,7 @@ const navigation = [
   { name: 'Çağdaş Sanat', href: '/art' },
   { name: 'Hakkında', href: '/about' },
   { name: 'İletişim', href: '/contact' },
+  { name: 'Analitik', href: '/analytics' },
 ]
 
 export function Navbar() {
