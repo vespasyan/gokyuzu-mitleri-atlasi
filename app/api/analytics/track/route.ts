@@ -4,7 +4,7 @@ import { redis, analyticsKeys } from '@/lib/redis'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { visitorId, sessionId, page, isNewSession, isNewVisitor } = body
+    const { visitorId, sessionId, page, isNewSession } = body
 
     if (!visitorId || !sessionId || !page) {
       return NextResponse.json(
@@ -16,16 +16,21 @@ export async function POST(request: NextRequest) {
     const today = new Date().toISOString().split('T')[0]
     const timestamp = Date.now()
 
+    // Check if visitor already exists in Redis
+    const isExistingVisitor = await redis.sismember(
+      analyticsKeys.uniqueVisitors,
+      visitorId
+    )
+    const isNewVisitor = !isExistingVisitor
+
     // Use pipeline for atomic operations
     const pipeline = redis.pipeline()
 
     // Increment total visits
     pipeline.incr(analyticsKeys.totalVisits)
 
-    // Track unique visitor
-    if (isNewVisitor) {
-      pipeline.sadd(analyticsKeys.uniqueVisitors, visitorId)
-    }
+    // Track unique visitor (Redis SET automatically handles duplicates)
+    pipeline.sadd(analyticsKeys.uniqueVisitors, visitorId)
 
     // Increment daily visits
     pipeline.incr(analyticsKeys.dailyVisits(today))

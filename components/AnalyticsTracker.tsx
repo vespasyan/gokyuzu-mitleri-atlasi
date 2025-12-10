@@ -42,21 +42,11 @@ export default function AnalyticsTracker() {
 
         // Get visitor ID
         const visitorId = getVisitorId()
-        
-        // Check if this is a new visitor
-        const visitorsData = localStorage.getItem('uniqueVisitors')
-        const visitors = visitorsData ? JSON.parse(visitorsData) : []
-        const isNewVisitor = !visitors.includes(visitorId)
-        
-        if (isNewVisitor) {
-          visitors.push(visitorId)
-          localStorage.setItem('uniqueVisitors', JSON.stringify(visitors))
-        }
 
         // Get page name
         const pageName = getPageName(pathname)
 
-        // Send tracking data to API
+        // Send tracking data to API (backend will check if visitor is truly new)
         await fetch('/api/analytics/track', {
           method: 'POST',
           headers: {
@@ -67,7 +57,6 @@ export default function AnalyticsTracker() {
             sessionId,
             page: pageName,
             isNewSession,
-            isNewVisitor,
           }),
         })
 
