@@ -20,6 +20,9 @@ export default function VirtualMuseum3D() {
 
     console.log('Initializing 3D Museum...')
 
+    // Store container ref at start to use in cleanup
+    const container = containerRef.current
+
     // Scene
     const scene = new THREE.Scene()
     scene.background = new THREE.Color(0x0a0a0f)
@@ -56,11 +59,11 @@ export default function VirtualMuseum3D() {
     renderer.domElement.style.display = 'block'
     renderer.domElement.style.zIndex = '1'
     
-    containerRef.current.appendChild(renderer.domElement)
+    container.appendChild(renderer.domElement)
     console.log('Renderer created, size:', window.innerWidth, window.innerHeight)
     console.log('Canvas element:', renderer.domElement)
 
-    containerRef.current.appendChild(renderer.domElement)
+    container.appendChild(renderer.domElement)
     console.log('Renderer created, size:', window.innerWidth, window.innerHeight)
 
     // Controls
@@ -406,8 +409,6 @@ export default function VirtualMuseum3D() {
         renderer.dispose()
       }
       
-      // Store container ref value before cleanup
-      const container = containerRef.current
       if (container && renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement)
       }
