@@ -1,21 +1,32 @@
 import Redis from 'ioredis'
 
-// Validate environment variables
-if (!process.env.KV_URL) {
-  console.error('Redis KV_URL environment variable missing')
+// Check if Redis is configured
+const isRedisConfigured = !!process.env.KV_URL
+
+// Initialize Redis client with Upstash credentials (only if configured)
+export const redis = isRedisConfigured 
+  ? new Redis(process.env.KV_URL!, {
+      maxRetriesPerRequest: 3,
+      enableReadyCheck: false,
+      lazyConnect: true,
+      // Suppress connection error logs
+      retryStrategy: () => null,
+    })
+  : null
+
+// Test connection only if configured
+if (redis) {
+  redis.connect().catch(() => {
+    // Silently fail - analytics is optional
+  })
+  
+  // Suppress error event logs
+  redis.on('error', () => {
+    // Silently ignore Redis errors
+  })
+} else {
+  console.warn('⚠️  Redis not configured - analytics disabled')
 }
-
-// Initialize Redis client with Upstash credentials
-export const redis = new Redis(process.env.KV_URL || '', {
-  maxRetriesPerRequest: 3,
-  enableReadyCheck: false,
-  lazyConnect: true,
-})
-
-// Test connection
-redis.connect().catch((err) => {
-  console.error('Redis connection error:', err)
-})
 
 // Helper functions for analytics
 export const analyticsKeys = {

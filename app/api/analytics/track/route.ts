@@ -4,11 +4,11 @@ import { redis, analyticsKeys } from '@/lib/redis'
 export async function POST(request: NextRequest) {
   try {
     // Check if Redis is properly configured
-    if (!process.env.KV_URL) {
-      console.error('Redis not configured properly')
+    if (!process.env.KV_URL || !redis) {
+      // Analytics disabled - return success silently
       return NextResponse.json(
-        { error: 'Redis not configured' },
-        { status: 503 }
+        { success: true, message: 'Analytics disabled' },
+        { status: 200 }
       )
     }
 

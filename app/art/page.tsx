@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
+import VRButton from '@/components/VRButton'
 
 const VirtualMuseum3D = dynamic(() => import('@/components/VirtualMuseum3D'), {
   ssr: false,
@@ -117,6 +118,7 @@ const artworks = [
 
 export default function VirtualMuseumPage() {
   const [viewMode, setViewMode] = useState<'3d' | 'gallery'>('3d')
+  const [isVRMode, setIsVRMode] = useState(false)
 
   // Hide navbar in 3D mode
   useEffect(() => {
@@ -146,7 +148,7 @@ export default function VirtualMuseumPage() {
   if (viewMode === '3d') {
     return (
       <>
-        <VirtualMuseum3D />
+        <VirtualMuseum3D isVRMode={isVRMode} />
         {/* Exit/Close Button */}
         <button
           onClick={() => setViewMode('gallery')}
@@ -168,6 +170,9 @@ export default function VirtualMuseumPage() {
           </svg>
           Galeri Görünümü
         </button>
+        
+        {/* VR Button */}
+        <VRButton onVRModeChange={setIsVRMode} />
       </>
     )
   }

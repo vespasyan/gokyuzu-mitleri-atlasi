@@ -7,9 +7,10 @@ interface Props {
   stars?: Star[];
   onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
+  isVRMode?: boolean;
 }
 
-export default function SimpleZoomStarField({ stars = [], onStarClick, selectedStarId }: Props) {
+export default function SimpleZoomStarField({ stars = [], onStarClick, selectedStarId, isVRMode = false }: Props) {
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState({ x: 0, y: 0 }); // 3D rotation angles
   const [isDragging, setIsDragging] = useState(false);
@@ -17,6 +18,9 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
   const [lastRotation, setLastRotation] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  // VR mode not implemented in SimpleZoomStarField (2D canvas based)
+  // isVRMode parameter added for compatibility but ignored
   
   // Initialize component
   useEffect(() => {

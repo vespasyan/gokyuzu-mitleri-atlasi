@@ -7,12 +7,34 @@ export async function GET() {
     console.log('Redis URL:', process.env.KV_URL ? 'Configured' : 'Missing')
     
     // Check if Redis is properly configured
-    if (!process.env.KV_URL) {
-      console.error('Redis not configured properly')
-      return NextResponse.json(
-        { error: 'Redis not configured' },
-        { status: 503 }
-      )
+    if (!process.env.KV_URL || !redis) {
+      console.warn('⚠️  Redis not configured - returning empty stats')
+      // Return empty stats instead of error - let frontend use localStorage
+      return NextResponse.json({
+        totalVisits: 0,
+        uniqueVisitors: 0,
+        todayVisits: 0,
+        bounceRate: 0,
+        pageViews: {
+          home: 0,
+          stories: 0,
+          art: 0,
+          about: 0,
+          contact: 0
+        },
+        recentVisits: [],
+        dailyStats: Array.from({ length: 7 }, (_, i) => {
+          const date = new Date()
+          date.setDate(date.getDate() - (6 - i))
+          return {
+            date: date.toLocaleDateString('tr-TR', {
+              day: '2-digit',
+              month: 'short',
+            }),
+            visits: 0,
+          }
+        })
+      })
     }
     
     const today = new Date().toISOString().split('T')[0]

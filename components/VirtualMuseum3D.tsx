@@ -3,16 +3,21 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
 
 console.log('VirtualMuseum3D component loaded')
 
-export default function VirtualMuseum3D() {
+interface VirtualMuseum3DProps {
+  isVRMode?: boolean
+}
+
+export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const sceneRef = useRef<THREE.Scene | null>(null)
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
 
-  console.log('VirtualMuseum3D component rendering')
+  console.log('VirtualMuseum3D component rendering', 'VR Mode:', isVRMode)
 
   useEffect(() => {
     console.log('useEffect started, containerRef.current:', containerRef.current)
@@ -48,6 +53,13 @@ export default function VirtualMuseum3D() {
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    
+    // Enable XR support if VR mode is active
+    if (isVRMode) {
+      renderer.xr.enabled = true
+      console.log('XR enabled for VR mode')
+    }
+    
     rendererRef.current = renderer
     
     // Set canvas styles for visibility
@@ -63,8 +75,15 @@ export default function VirtualMuseum3D() {
     console.log('Renderer created, size:', window.innerWidth, window.innerHeight)
     console.log('Canvas element:', renderer.domElement)
 
-    container.appendChild(renderer.domElement)
-    console.log('Renderer created, size:', window.innerWidth, window.innerHeight)
+    // Add native VR button if VR mode is active
+    if (isVRMode && renderer.xr.enabled) {
+      const vrButton = VRButton.createButton(renderer)
+      const vrButtonContainer = document.getElementById('vr-button-container')
+      if (vrButtonContainer) {
+        vrButtonContainer.appendChild(vrButton)
+        console.log('Native VR button added')
+      }
+    }
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -82,22 +101,22 @@ export default function VirtualMuseum3D() {
 
     // Lighting - Much brighter
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.5)
-    scene.add(ambientLight)
+    scene.add(ambientLight as any)
 
     const mainLight = new THREE.DirectionalLight(0xffffff, 2)
     mainLight.position.set(10, 15, 10)
     mainLight.castShadow = true
     mainLight.shadow.mapSize.width = 2048
     mainLight.shadow.mapSize.height = 2048
-    scene.add(mainLight)
+    scene.add(mainLight as any)
 
     const frontLight = new THREE.DirectionalLight(0xffffff, 1.5)
     frontLight.position.set(0, 5, 15)
-    scene.add(frontLight)
+    scene.add(frontLight as any)
 
     const backLight = new THREE.DirectionalLight(0xffffff, 1)
     backLight.position.set(0, 5, -15)
-    scene.add(backLight)
+    scene.add(backLight as any)
 
     console.log('Lights added')
 
@@ -372,8 +391,6 @@ export default function VirtualMuseum3D() {
     let frameCount = 0
     let animationId: number
     const animate = () => {
-      animationId = requestAnimationFrame(animate)
-      
       frameCount++
       if (frameCount % 60 === 0) {
         console.log('Animation running, frame:', frameCount)
@@ -383,8 +400,18 @@ export default function VirtualMuseum3D() {
       renderer.render(scene, camera)
     }
     
-    console.log('Starting animation loop NOW')
-    animate()
+    // Use XR animation loop if in VR mode, otherwise regular loop
+    if (isVRMode && renderer.xr.enabled) {
+      console.log('Starting XR animation loop')
+      renderer.setAnimationLoop(animate)
+    } else {
+      console.log('Starting regular animation loop')
+      const regularAnimate = () => {
+        animationId = requestAnimationFrame(regularAnimate)
+        animate()
+      }
+      regularAnimate()
+    }
     console.log('Animation loop started')
 
     // Handle window resize
@@ -403,9 +430,11 @@ export default function VirtualMuseum3D() {
     return () => {
       console.log('Cleaning up 3D Museum')
       window.removeEventListener('resize', handleResize)
-      cancelAnimationFrame(animationId)
-      
+      if (animationId) {
+        cancelAnimationFrame(animationId)
+      }
       if (renderer) {
+        renderer.setAnimationLoop(null)
         renderer.dispose()
       }
       
@@ -413,7 +442,7 @@ export default function VirtualMuseum3D() {
         container.removeChild(renderer.domElement)
       }
     }
-  }, [])
+  }, [isVRMode])
 
   return (
     <div className="fixed inset-0 w-full h-screen overflow-hidden bg-black z-[200]">
@@ -443,7 +472,13 @@ export default function VirtualMuseum3D() {
         <h2 className="text-3xl font-bold text-white mb-1">🏛️ Sanal Müze</h2>
         <p className="text-purple-200 text-base font-medium">Türk Mitolojisi Sanat Galerisi</p>
         <p className="text-purple-300 text-sm mt-2">20 Dijital Eser</p>
+        {isVRMode && <p className="text-green-300 text-sm mt-2 flex items-center gap-1">
+          <span>🥽</span> VR Modu Aktif
+        </p>}
       </div>
+      
+      {/* Native WebXR VR Button - Only show if VR mode is enabled */}
+      {isVRMode && <div id="vr-button-container" className="fixed bottom-24 right-8 z-[250]" />}
     </div>
   )
 }

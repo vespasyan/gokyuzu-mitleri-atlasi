@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect, Suspense, useState } from "react";
+import React, { useRef, useEffect, Suspense, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Text } from "@react-three/drei";
+import { VRButton, XR, createXRStore } from "@react-three/xr";
 import * as THREE from "three";
 import { Star } from '@/lib/types';
 
@@ -10,6 +11,7 @@ type Props = {
   stars?: Star[];
   onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
+  isVRMode?: boolean;
 };
 
 // Loading fallback component
@@ -43,31 +45,69 @@ function StarPoint({ star, isSelected, onStarClick }: { star: Star; isSelected: 
   
   return (
     <group position={[star.coordinates?.x || 0, star.coordinates?.y || 0, star.coordinates?.z || 0]}>
+      {/* Outer glow - larger, transparent sphere */}
+      <mesh>
+        <sphereGeometry args={[baseSize * 2.5, 16, 16]} />
+        <meshBasicMaterial
+          color={star.color || "#9bb0ff"}
+          transparent
+          opacity={isSelected ? 0.25 : hovered ? 0.15 : 0.08}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+      
+      {/* Inner glow */}
+      <mesh>
+        <sphereGeometry args={[baseSize * 1.5, 16, 16]} />
+        <meshBasicMaterial
+          color={star.color || "#9bb0ff"}
+          transparent
+          opacity={isSelected ? 0.4 : hovered ? 0.3 : 0.15}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+      
+      {/* Main star */}
       <mesh
         ref={meshRef}
         onClick={(e) => { e.stopPropagation(); onStarClick(star); }}
         onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
         onPointerOut={(e) => { e.stopPropagation(); setHovered(false); }}
       >
-        <sphereGeometry args={[baseSize, 16, 16]} />
+        <sphereGeometry args={[baseSize, 24, 24]} />
         <meshPhysicalMaterial
           color={star.color || "#9bb0ff"}
           emissive={star.color || "#9bb0ff"}
-          emissiveIntensity={isSelected ? 1.5 : hovered ? 1.0 : 0.6}
+          emissiveIntensity={isSelected ? 2.5 : hovered ? 1.8 : 1.2}
+          metalness={0.1}
+          roughness={0.2}
           transparent
-          opacity={0.9}
+          opacity={0.95}
+          clearcoat={0.5}
+          clearcoatRoughness={0.1}
         />
       </mesh>
+      
+      {/* Point light for star illumination */}
+      <pointLight 
+        position={[0, 0, 0]} 
+        color={star.color || "#9bb0ff"} 
+        intensity={isSelected ? 2.0 : hovered ? 1.2 : 0.8} 
+        distance={5}
+      />
       
       {/* Yıldız adı */}
       <Text
         position={[0, baseSize + 0.3, 0]}
-        fontSize={isSelected ? 0.2 : 0.15}
+        fontSize={isSelected ? 0.25 : 0.18}
         color="white"
         anchorX="center"
         anchorY="middle"
-        outlineWidth={0.02}
+        outlineWidth={0.03}
         outlineColor="#000000"
+        outlineOpacity={0.8}
       >
         {star.turkishName || star.name}
       </Text>
@@ -194,15 +234,18 @@ function Scene({ stars, onStarClick, selectedStarId, onControlsReady }: {
   
   return (
     <>
-      {/* Background */}
-      <color attach="background" args={["#020617"]} />
+      {/* Background - Deep space */}
+      <color attach="background" args={["#000814"]} />
+      <fog attach="fog" args={["#000814", 50, 200]} />
       
-      {/* Basic lighting */}
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 5, 5]} intensity={0.4} />
+      {/* Enhanced lighting for better star visibility */}
+      <ambientLight intensity={0.5} />
+      <pointLight position={[0, 0, 0]} intensity={0.8} color="#ffffff" />
+      <pointLight position={[10, 10, 10]} intensity={0.3} color="#a8d5ff" />
+      <pointLight position={[-10, -10, -10]} intensity={0.3} color="#ffd4a8" />
       
-      {/* Background stars */}
-      <Stars radius={30} depth={50} count={1000} factor={2} saturation={0} fade speed={0.2} />
+      {/* Enhanced background stars - more dense and varied */}
+      <Stars radius={100} depth={80} count={5000} factor={4} saturation={0.2} fade speed={0.5} />
       
       {/* Main stars */}
       {stars.map((star) => (
@@ -219,12 +262,13 @@ function Scene({ stars, onStarClick, selectedStarId, onControlsReady }: {
   );
 }
 
-export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarId }: Props) {
+export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarId, isVRMode = false }: Props) {
   // Canvas için kapsayıcı div (event kaynağı)
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasError, setHasError] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [controlsRef, setControlsRef] = useState<any>(null);
+  const store = useMemo(() => createXRStore(), []);
 
   // window/document gibi erişimleri modül üstünde değil, effect içinde yap
   useEffect(() => {
@@ -286,29 +330,43 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
 
   return (
     <div ref={containerRef} className="w-full h-full relative">
-
-
       <Suspense fallback={<LoadingSpinner />}>
         <Canvas
           camera={{ position: [0, 0, 15], fov: 50 }}
           dpr={[1, 2]}
           gl={{
             antialias: true,
+            alpha: false,
             outputColorSpace: THREE.SRGBColorSpace,
             toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.0,
+            toneMappingExposure: 1.2,
             powerPreference: "high-performance",
+            preserveDrawingBuffer: true,
           }}
           onError={() => setHasError(true)}
         >
-          <Scene 
-            stars={stars} 
-            onStarClick={onStarClick} 
-            selectedStarId={selectedStarId}
-            onControlsReady={setControlsRef}
-          />
+          {isVRMode ? (
+            <XR store={store}>
+              <Scene 
+                stars={stars} 
+                onStarClick={onStarClick} 
+                selectedStarId={selectedStarId}
+                onControlsReady={setControlsRef}
+              />
+            </XR>
+          ) : (
+            <Scene 
+              stars={stars} 
+              onStarClick={onStarClick} 
+              selectedStarId={selectedStarId}
+              onControlsReady={setControlsRef}
+            />
+          )}
         </Canvas>
       </Suspense>
+      
+      {/* WebXR VR Button - Three.js tarafından sağlanan */}
+      {isVRMode && <VRButton store={store} />}
     </div>
   );
 }
