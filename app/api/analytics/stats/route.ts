@@ -93,8 +93,9 @@ export async function GET() {
     let totalSessions = 0
 
     if (sessionKeys.length > 0 && redis) {
+      const redisClient = redis
       const sessions = await Promise.all(
-        sessionKeys.slice(0, 100).map((key) => redis.hgetall(key))
+        sessionKeys.slice(0, 100).map((key) => redisClient.hgetall(key))
       )
 
       sessions.forEach((session) => {
