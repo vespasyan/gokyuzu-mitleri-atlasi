@@ -77,7 +77,7 @@ export async function GET() {
         const date = new Date()
         date.setDate(date.getDate() - (6 - i))
         const dateKey = date.toISOString().split('T')[0]
-        const visits = await redis.get(analyticsKeys.dailyVisits(dateKey))
+        const visits = redis ? await redis.get(analyticsKeys.dailyVisits(dateKey)) : null
         return {
           date: date.toLocaleDateString('tr-TR', {
             day: '2-digit',
@@ -92,7 +92,7 @@ export async function GET() {
     let bouncedSessions = 0
     let totalSessions = 0
 
-    if (sessionKeys.length > 0) {
+    if (sessionKeys.length > 0 && redis) {
       const sessions = await Promise.all(
         sessionKeys.slice(0, 100).map((key) => redis.hgetall(key))
       )
