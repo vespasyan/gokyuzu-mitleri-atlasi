@@ -81,23 +81,71 @@ function MuseumScene() {
       {/* Floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[30, 30]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.2} roughness={0.8} />
+        <meshStandardMaterial 
+          color="#404050"
+          metalness={0.2} 
+          roughness={0.8}
+        >
+          <primitive 
+            attach="map" 
+            object={(() => {
+              const texture = new THREE.TextureLoader().load('/images/Marble_Pattern_v1.png')
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.repeat.set(3, 3)
+              return texture
+            })()} 
+          />
+        </meshStandardMaterial>
       </mesh>
       
       {/* Walls */}
       <mesh position={[0, 3, -8]} receiveShadow>
         <boxGeometry args={[30, 6, 0.2]} />
-        <meshStandardMaterial color="#16213e" />
+        <meshStandardMaterial color="#353545" roughness={0.9}>
+          <primitive 
+            attach="map" 
+            object={(() => {
+              const texture = new THREE.TextureLoader().load('/images/wallpaper_pattern_v2.png')
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.repeat.set(3, 1)
+              return texture
+            })()} 
+          />
+        </meshStandardMaterial>
       </mesh>
       
       <mesh position={[-8, 3, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
         <boxGeometry args={[16, 6, 0.2]} />
-        <meshStandardMaterial color="#16213e" />
+        <meshStandardMaterial color="#353545" roughness={0.9}>
+          <primitive 
+            attach="map" 
+            object={(() => {
+              const texture = new THREE.TextureLoader().load('/images/wallpaper_pattern_v2.png')
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.repeat.set(2, 1)
+              return texture
+            })()} 
+          />
+        </meshStandardMaterial>
       </mesh>
       
       <mesh position={[8, 3, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
         <boxGeometry args={[16, 6, 0.2]} />
-        <meshStandardMaterial color="#16213e" />
+        <meshStandardMaterial color="#353545" roughness={0.9}>
+          <primitive 
+            attach="map" 
+            object={(() => {
+              const texture = new THREE.TextureLoader().load('/images/wallpaper_pattern_v2.png')
+              texture.wrapS = THREE.RepeatWrapping
+              texture.wrapT = THREE.RepeatWrapping
+              texture.repeat.set(2, 1)
+              return texture
+            })()} 
+          />
+        </meshStandardMaterial>
       </mesh>
       
       {/* Artworks on back wall */}

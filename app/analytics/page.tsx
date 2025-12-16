@@ -127,6 +127,8 @@ export default function AnalyticsPage() {
           })
         }
         
+        console.log('📊 Daily Stats:', dailyStats)
+        
         setStats({
           totalVisits,
           uniqueVisitors,
@@ -308,17 +310,22 @@ export default function AnalyticsPage() {
               {/* Bars */}
               {stats.dailyStats.map((day, index) => {
                 const height = maxDailyVisits > 0 ? (day.visits / maxDailyVisits) * 100 : 0
+                const minHeight = day.visits > 0 ? 5 : 0 // Minimum görünür yükseklik
+                const finalHeight = Math.max(height, minHeight)
+                
                 return (
-                  <div key={index} className="flex-1 flex flex-col items-center group relative">
-                    <div 
-                      className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg transition-all duration-300 hover:from-blue-400 hover:to-blue-300 relative"
-                      style={{ height: `${height}%` }}
-                    >
-                      {/* Tooltip */}
-                      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-dark-300 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
-                        {day.visits} ziyaret
+                  <div key={index} className="flex-1 flex flex-col items-center justify-end group relative h-full px-1">
+                    {finalHeight > 0 && (
+                      <div 
+                        className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg transition-all duration-300 hover:from-blue-400 hover:to-blue-300 relative"
+                        style={{ height: `${finalHeight}%`, minHeight: '8px' }}
+                      >
+                        {/* Tooltip */}
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-dark-300 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg z-10">
+                          {day.visits} ziyaret
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <span className="text-xs text-gray-400 mt-2">{day.date}</span>
                   </div>
                 )

@@ -120,10 +120,20 @@ export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DPro
 
     console.log('Lights added')
 
-    // Floor - Marble style
+    // Initialize texture loader
+    const textureLoader = new THREE.TextureLoader()
+    textureLoader.crossOrigin = 'anonymous'
+
+    // Floor - Marble style with texture
     const floorGeometry = new THREE.PlaneGeometry(40, 40)
+    const marbleTexture = textureLoader.load('/images/Marble_Pattern_v1.png')
+    marbleTexture.wrapS = THREE.RepeatWrapping
+    marbleTexture.wrapT = THREE.RepeatWrapping
+    marbleTexture.repeat.set(4, 4) // Repeat pattern across floor
+    
     const floorMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x2d2d3a,
+      map: marbleTexture,
+      color: 0x404050, // Dark tint for marble
       roughness: 0.6,
       metalness: 0.2
     })
@@ -144,9 +154,15 @@ export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DPro
     ceiling.position.y = 6
     scene.add(ceiling)
 
-    // Walls
+    // Walls with wallpaper texture
+    const wallpaperTexture = textureLoader.load('/images/wallpaper_pattern_v2.png')
+    wallpaperTexture.wrapS = THREE.RepeatWrapping
+    wallpaperTexture.wrapT = THREE.RepeatWrapping
+    wallpaperTexture.repeat.set(3, 1) // Horizontal repeat for walls
+    
     const wallMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x1f1f2e,
+      map: wallpaperTexture,
+      color: 0x353545, // Lighter tint for visible pattern
       roughness: 0.9
     })
 
@@ -161,7 +177,7 @@ export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DPro
     // Left wall
     const leftWall = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 8),
-      wallMaterial
+      wallMaterial.clone()
     )
     leftWall.rotation.y = Math.PI / 2
     leftWall.position.set(-15, 3, 0)
@@ -170,7 +186,7 @@ export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DPro
     // Right wall
     const rightWall = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 8),
-      wallMaterial
+      wallMaterial.clone()
     )
     rightWall.rotation.y = -Math.PI / 2
     rightWall.position.set(15, 3, 0)
@@ -179,7 +195,7 @@ export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DPro
     // Front wall
     const frontWall = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 8),
-      wallMaterial
+      wallMaterial.clone()
     )
     frontWall.rotation.y = Math.PI
     frontWall.position.set(0, 3, 15)
@@ -188,9 +204,6 @@ export default function VirtualMuseum3D({ isVRMode = false }: VirtualMuseum3DPro
     console.log('Museum structure created')
 
     // Load artworks with proper error handling
-    const textureLoader = new THREE.TextureLoader()
-    textureLoader.crossOrigin = 'anonymous'
-    
     const artworks = [
       {
         name: 'Sirius - Çoban Yıldızı',

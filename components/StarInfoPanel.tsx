@@ -57,38 +57,40 @@ export function StarInfoPanel({ star, isOpen, onClose }: StarInfoPanelProps) {
 
         {/* Content */}
         <div className="p-4 lg:p-6 space-y-6">
-          {/* Yıldız Özellikleri */}
-          <div className="bg-cosmic-50/10 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-star-400 mb-3">
-              Yıldız Özellikleri
-            </h3>
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div>
-                <span className="text-gray-400">Parlaklık:</span>
-                <p className="text-white font-medium">{star.magnitude}</p>
-              </div>
-              <div>
-                <span className="text-gray-400">Spektral Sınıf:</span>
-                <p className="text-white font-medium">{star.spectralClass}</p>
-              </div>
-              <div>
-                <span className="text-gray-400">Uzaklık:</span>
-                <p className="text-white font-medium">{star.astronomy.distance}</p>
-              </div>
-              <div>
-                <span className="text-gray-400">Sıcaklık:</span>
-                <p className="text-white font-medium">{star.astronomy.temperature}</p>
-              </div>
-              <div>
-                <span className="text-gray-400">Kütle:</span>
-                <p className="text-white font-medium">{star.astronomy.mass}</p>
-              </div>
-              <div>
-                <span className="text-gray-400">Yaş:</span>
-                <p className="text-white font-medium">{star.astronomy.age}</p>
+          {/* Yıldız Özellikleri - Tübitak için gizle */}
+          {star.id !== 'tubitak' && (
+            <div className="bg-cosmic-50/10 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-star-400 mb-3">
+                Yıldız Özellikleri
+              </h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <span className="text-gray-400">Parlaklık:</span>
+                  <p className="text-white font-medium">{star.magnitude}</p>
+                </div>
+                <div>
+                  <span className="text-gray-400">Spektral Sınıf:</span>
+                  <p className="text-white font-medium">{star.spectralClass}</p>
+                </div>
+                <div>
+                  <span className="text-gray-400">Uzaklık:</span>
+                  <p className="text-white font-medium">{star.astronomy.distance}</p>
+                </div>
+                <div>
+                  <span className="text-gray-400">Sıcaklık:</span>
+                  <p className="text-white font-medium">{star.astronomy.temperature}</p>
+                </div>
+                <div>
+                  <span className="text-gray-400">Kütle:</span>
+                  <p className="text-white font-medium">{star.astronomy.mass}</p>
+                </div>
+                <div>
+                  <span className="text-gray-400">Yaş:</span>
+                  <p className="text-white font-medium">{star.astronomy.age}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Mitolojik Hikaye */}
           <div className="bg-dark-300/30 rounded-lg p-4">

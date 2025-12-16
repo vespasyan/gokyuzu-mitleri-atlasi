@@ -13,6 +13,7 @@ export interface Star {
   magnitude: number; // Yıldızın parlaklığı
   spectralClass: string; // O, B, A, F, G, K, M
   color: string; // Hex renk kodu
+  logo?: string; // Logo URL'i (yıldız yerine logo göstermek için)
   myth: MythEntry;
   astronomy: AstronomicalInfo;
   media?: MediaContent;

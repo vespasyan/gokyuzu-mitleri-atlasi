@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function SimpleZoomStarField({ stars = [], onStarClick, selectedStarId, isVRMode = false }: Props) {
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.7); // Varsayılan zoom %70
   const [rotation, setRotation] = useState({ x: 0, y: 0 }); // 3D rotation angles
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -152,7 +152,8 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
       'vega': 2.36,       // Kayra Han Yıldızı  
       'altair': 1.63,     // Kartal Yıldızı
       'polaris': 37.5,    // Demir Kazık (giant star!)
-      'capella': 11.9     // Ebe Ana Yıldızı
+      'capella': 11.9,    // Ebe Ana Yıldızı
+      'tubitak': 50.0     // Tübitak Logo (BÜYÜK)
     };
     
     const radius = starRadii[star.id as keyof typeof starRadii] || 2.0;
@@ -328,7 +329,8 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
             { theta: Math.PI * 0.7, phi: Math.PI * 0.4 },   // Right - Vega (Kayra Han Yıldızı)
             { theta: -Math.PI * 0.7, phi: Math.PI * 0.4 },  // Left - Altair (Kartal Yıldızı)
             { theta: Math.PI * 0.3, phi: Math.PI * 0.5 },   // Front right - Polaris (Demir Kazık)
-            { theta: -Math.PI * 0.3, phi: Math.PI * 0.5 }   // Front left - Capella (Ebe Ana Yıldızı)
+            { theta: -Math.PI * 0.3, phi: Math.PI * 0.5 },  // Front left - Capella (Ebe Ana Yıldızı)
+            { theta: 0, phi: Math.PI * 0.5 }                // Center front - Tübitak (TAM ORTADA)
           ];
           
           const pos = sphericalPositions[starIndex] || { theta: starIndex * 0.3, phi: Math.PI * 0.4 };
@@ -406,28 +408,63 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
                 title={`${star.turkishName || star.name} - Hikayesini görmek için tıklayın`}
               />
               
-              {/* Visual star sphere */}
-              <div
-                className="star-sphere transition-all duration-300 pointer-events-none"
-                style={{
-                  width: `${getStarSize(star)}px`,
-                  height: `${getStarSize(star)}px`,
-                  background: selectedStarId === star.id 
-                    ? 'radial-gradient(circle at 30% 30%, #ffd700, #ffed4e, #d4af37, #b8860b)'
-                    : 'radial-gradient(circle at 30% 30%, #ffffff, #e6f3ff, #4a90ff, #1e40af)',
-                  boxShadow: selectedStarId === star.id
-                    ? '0 0 20px #ffd700, 0 0 40px #ffd700, inset -2px -2px 4px rgba(0,0,0,0.3)'
-                    : '0 0 15px #4a90ff, 0 0 30px #4a90ff, inset -2px -2px 4px rgba(0,0,0,0.3)',
-                  border: 'none',
-                  borderRadius: '50%',
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
-                  transformStyle: 'preserve-3d',
-                  zIndex: 1000,
-                }}
-              />
+              {/* Visual star sphere or logo */}
+              {star.logo ? (
+                <div
+                  className="transition-all duration-300 pointer-events-none"
+                  style={{
+                    width: `${getStarSize(star) * 1}px`,
+                    height: `${getStarSize(star) * 1}px`,
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
+                    transformStyle: 'preserve-3d',
+                    zIndex: 10000,
+                    background: 'white',
+                    borderRadius: '50%',
+                    padding: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: selectedStarId === star.id 
+                      ? '0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.8)' 
+                      : '0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.6)',
+                  }}
+                >
+                  <img
+                    src={star.logo}
+                    alt={star.turkishName || star.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </div>
+              ) : (
+                <div
+                  className="star-sphere transition-all duration-300 pointer-events-none"
+                  style={{
+                    width: `${getStarSize(star)}px`,
+                    height: `${getStarSize(star)}px`,
+                    background: selectedStarId === star.id 
+                      ? 'radial-gradient(circle at 30% 30%, #ffd700, #ffed4e, #d4af37, #b8860b)'
+                      : 'radial-gradient(circle at 30% 30%, #ffffff, #e6f3ff, #4a90ff, #1e40af)',
+                    boxShadow: selectedStarId === star.id
+                      ? '0 0 20px #ffd700, 0 0 40px #ffd700, inset -2px -2px 4px rgba(0,0,0,0.3)'
+                      : '0 0 15px #4a90ff, 0 0 30px #4a90ff, inset -2px -2px 4px rgba(0,0,0,0.3)',
+                    border: 'none',
+                    borderRadius: '50%',
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
+                    transformStyle: 'preserve-3d',
+                    zIndex: 1000,
+                  }}
+                />
+              )}
             </div>
           );
         })}

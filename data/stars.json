@@ -8,7 +8,7 @@
       "coordinates": {
         "ra": 6.75,
         "dec": -16.7,
-        "x": -12.0,
+        "x": -17.0,
         "y": 5.0,
         "z": -18.0
       },
@@ -240,6 +240,57 @@
           }
         ]
       }
+    },
+    {
+      "id": "tubitak",
+      "name": "Tübitak",
+      "turkishName": "Tübitak",
+      "constellation": "Gökyüzü Merkezi",
+      "logo": "/images/Tubitak_Logo.png",
+      "coordinates": {
+        "ra": 0,
+        "dec": 0,
+        "x": 0,
+        "y": 2,
+        "z": 0
+      },
+      "magnitude": -2.0,
+      "spectralClass": "G2V",
+      "color": "#ffd700",
+      "myth": {
+        "title": "TÜBİTAK 2204-A Ortaöğretim Öğrencileri Araştırma Projeleri Yarışması",
+        "story": "Bu 'Gökyüzü Mitleri Atlası' web uygulaması, TÜBİTAK 2204-A Ortaöğretim Öğrencileri Araştırma Projeleri Yarışması kapsamında geliştirilmiş eğitici bir projedir. Türk mitolojisindeki yıldız hikayelerini modern web teknolojileriyle birleştirerek, kullanıcılara interaktif bir öğrenme deneyimi sunmayı hedeflemektedir. Proje, öğrencilerin bilimsel araştırma yapma, teknoloji kullanma ve kültürel mirası koruma yeteneklerini geliştirmeyi amaçlamaktadır. Next.js, Three.js ve React teknolojileri kullanılarak oluşturulan bu platform, hem masaüstü hem de VR cihazlarında çalışabilmektedir.",
+        "origin": "TÜBİTAK 2204-A Projesi",
+        "characters": ["Öğrenciler", "Araştırmacılar", "Eğitimciler"],
+        "themes": ["Bilim", "Teknoloji", "Eğitim", "Kültürel Miras"],
+        "moralLesson": "Bilim ve teknoloji, kültürel mirasımızı korumak ve geleceğe taşımak için güçlü araçlardır.",
+        "relatedStars": ["sirius", "vega", "polaris", "capella"]
+      },
+      "astronomy": {
+        "distance": "TÜBİTAK - Türkiye Bilimsel ve Teknolojik Araştırma Kurumu",
+        "temperature": "2204-A Ortaöğretim Öğrencileri Araştırma Projeleri Yarışması",
+        "mass": "Web Teknolojileri: Next.js 14, React, Three.js",
+        "radius": "VR Desteği: WebXR ile sanal gerçeklik deneyimi",
+        "age": "Proje Yılı: 2024-2025",
+        "facts": [
+          "TÜBİTAK 2204-A programı, ortaöğretim öğrencilerinin bilimsel araştırma yapma becerilerini geliştirir",
+          "Bu proje, Türk mitolojisi ve modern teknoloji köprüsü kurar",
+          "Interaktif 3D görselleştirme ve VR desteği içerir",
+          "Açık kaynak teknolojiler kullanılarak geliştirilmiştir",
+          "Eğitim ve kültürel farkındalık amacı taşır"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "/images/Tubitak_Logo.png",
+            "alt": "Tübitak Logosu",
+            "caption": "Türkiye Bilimsel ve Teknolojik Araştırma Kurumu",
+            "type": "astronomy"
+          }
+        ]
+      }
     }
+    
   ]
 }

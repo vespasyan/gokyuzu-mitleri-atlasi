@@ -54,6 +54,8 @@ export default function HomePage() {
         console.log('🌟 Loading star data...');
         setStars(starsData.stars as Star[])
         console.log('✅ Stars loaded:', starsData.stars.length);
+        const tubitak = starsData.stars.find((s: any) => s.id === 'tubitak');
+        console.log('🔍 TÜBİTAK yıldızı:', tubitak ? JSON.stringify(tubitak.coordinates) : 'BULUNAMADI!');
         
         // StarField'i hemen yüklenmeye hazır olarak işaretle
         // DOM zaten mount olmuştur çünkü useEffect çalışıyor

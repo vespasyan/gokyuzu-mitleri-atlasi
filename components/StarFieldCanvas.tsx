@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, Suspense, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Stars, Text } from "@react-three/drei";
+import { OrbitControls, Stars, Text, useTexture } from "@react-three/drei";
 import { VRButton, XR, createXRStore } from "@react-three/xr";
 import * as THREE from "three";
 import { Star } from '@/lib/types';
@@ -43,52 +43,95 @@ function StarPoint({ star, isSelected, onStarClick }: { star: Star; isSelected: 
   
   const baseSize = Math.max(0.15, 0.8 - (star.magnitude || 0) * 0.1);
   
+  // Logo texture yükleme
+  const logoTexture = star.logo ? useTexture(star.logo) : null;
+  
+  // Debug: Yıldız koordinatlarını console'a yazdır
+  useEffect(() => {
+    console.log(`⭐ ${star.turkishName || star.name} pozisyonu:`, {
+      x: star.coordinates?.x,
+      y: star.coordinates?.y,
+      z: star.coordinates?.z,
+      logo: star.logo
+    });
+  }, [star]);
+  
   return (
     <group position={[star.coordinates?.x || 0, star.coordinates?.y || 0, star.coordinates?.z || 0]}>
-      {/* Outer glow - larger, transparent sphere */}
-      <mesh>
-        <sphereGeometry args={[baseSize * 2.5, 16, 16]} />
-        <meshBasicMaterial
-          color={star.color || "#9bb0ff"}
-          transparent
-          opacity={isSelected ? 0.25 : hovered ? 0.15 : 0.08}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-      
-      {/* Inner glow */}
-      <mesh>
-        <sphereGeometry args={[baseSize * 1.5, 16, 16]} />
-        <meshBasicMaterial
-          color={star.color || "#9bb0ff"}
-          transparent
-          opacity={isSelected ? 0.4 : hovered ? 0.3 : 0.15}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-      
-      {/* Main star */}
-      <mesh
-        ref={meshRef}
-        onClick={(e) => { e.stopPropagation(); onStarClick(star); }}
-        onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
-        onPointerOut={(e) => { e.stopPropagation(); setHovered(false); }}
-      >
-        <sphereGeometry args={[baseSize, 24, 24]} />
-        <meshPhysicalMaterial
-          color={star.color || "#9bb0ff"}
-          emissive={star.color || "#9bb0ff"}
-          emissiveIntensity={isSelected ? 2.5 : hovered ? 1.8 : 1.2}
-          metalness={0.1}
-          roughness={0.2}
-          transparent
-          opacity={0.95}
-          clearcoat={0.5}
-          clearcoatRoughness={0.1}
-        />
-      </mesh>
+      {star.logo ? (
+        // Logo görüntüleme
+        <>
+          <mesh
+            ref={meshRef}
+            onClick={(e) => { e.stopPropagation(); onStarClick(star); }}
+            onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
+            onPointerOut={(e) => { e.stopPropagation(); setHovered(false); }}
+          >
+            <planeGeometry args={[baseSize * 4, baseSize * 4]} />
+            <meshBasicMaterial 
+              map={logoTexture} 
+              transparent 
+              opacity={isSelected ? 1.0 : hovered ? 0.9 : 0.85}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+          {/* Logo için hafif parlama efekti */}
+          <pointLight 
+            position={[0, 0, 0]} 
+            color="#ffffff" 
+            intensity={isSelected ? 1.5 : hovered ? 1.0 : 0.5} 
+            distance={5}
+          />
+        </>
+      ) : (
+        // Normal yıldız görüntüleme
+        <>
+          {/* Outer glow - larger, transparent sphere */}
+          <mesh>
+            <sphereGeometry args={[baseSize * 2.5, 16, 16]} />
+            <meshBasicMaterial
+              color={star.color || "#9bb0ff"}
+              transparent
+              opacity={isSelected ? 0.25 : hovered ? 0.15 : 0.08}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+          
+          {/* Inner glow */}
+          <mesh>
+            <sphereGeometry args={[baseSize * 1.5, 16, 16]} />
+            <meshBasicMaterial
+              color={star.color || "#9bb0ff"}
+              transparent
+              opacity={isSelected ? 0.4 : hovered ? 0.3 : 0.15}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+          
+          {/* Main star */}
+          <mesh
+            ref={meshRef}
+            onClick={(e) => { e.stopPropagation(); onStarClick(star); }}
+            onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
+            onPointerOut={(e) => { e.stopPropagation(); setHovered(false); }}
+          >
+            <sphereGeometry args={[baseSize, 24, 24]} />
+            <meshPhysicalMaterial
+              color={star.color || "#9bb0ff"}
+              emissive={star.color || "#9bb0ff"}
+              emissiveIntensity={isSelected ? 2.5 : hovered ? 1.8 : 1.2}
+              metalness={0.1}
+              roughness={0.2}
+              transparent
+              opacity={0.95}
+              clearcoat={0.5}
+              clearcoatRoughness={0.1}
+            />
+          </mesh>
+        </>
+      )}
       
       {/* Point light for star illumination */}
       <pointLight 
@@ -191,6 +234,7 @@ function CameraController({ selectedStar, onControlsReady }: { selectedStar?: St
   return (
     <OrbitControls 
       ref={controlsRef}
+      target={[0, 2, 0]} // Kameranın baktığı nokta - y=2 seviyesi
       enableDamping 
       dampingFactor={0.1} // Increased for smoother zoom
       rotateSpeed={1.2}
@@ -278,6 +322,23 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
     return () => window.removeEventListener('error', handleError);
   }, []);
 
+  // İlk yüklemede otomatik zoom out yap
+  useEffect(() => {
+    if (controlsRef) {
+      // 500ms bekle ve zoom out yap
+      const timer = setTimeout(() => {
+        const camera = controlsRef.object;
+        const target = controlsRef.target;
+        const direction = new THREE.Vector3().subVectors(camera.position, target).normalize();
+        const newPosition = target.clone().add(direction.multiplyScalar(camera.position.distanceTo(target) * 1.25));
+        camera.position.copy(newPosition);
+        controlsRef.update();
+        console.log('✓ Başlangıç zoom out uygulandı');
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [controlsRef]);
+
   // Listen for zoom events from parent component
   useEffect(() => {
     const handleZoomIn = () => {
@@ -332,7 +393,7 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
     <div ref={containerRef} className="w-full h-full relative">
       <Suspense fallback={<LoadingSpinner />}>
         <Canvas
-          camera={{ position: [0, 0, 15], fov: 50 }}
+          camera={{ position: [0, 2, 60], fov: 50 }}
           dpr={[1, 2]}
           gl={{
             antialias: true,
