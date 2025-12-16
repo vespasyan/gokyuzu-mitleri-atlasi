@@ -27,7 +27,7 @@ export default function StoriesPage() {
 
         {/* Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stars.map((star) => (
+          {stars.filter(star => star.id !== 'tubitak').map((star) => (
             <div
               key={star.id}
               className="bg-dark-400/50 backdrop-blur-lg rounded-lg p-6 border border-white/10 hover:border-star-400/30 transition-all duration-300 hover:transform hover:scale-105"

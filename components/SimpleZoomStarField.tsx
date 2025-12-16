@@ -347,7 +347,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
               style={{
                 left: '50%',
                 top: '50%',
-                transform: `translate3d(${x}px, ${y}px, ${z}px) translate(-50%, -50%)`,
+                transform: `translate3d(${x}px, ${y}px, ${z}px) rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg)`,
                 transformStyle: 'preserve-3d',
               }}
             >
@@ -363,9 +363,10 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
                   border: selectedStarId === star.id 
                     ? '2px solid rgba(255, 215, 0, 0.8)' 
                     : 'none',
+                  borderRadius: '50%',
                   cursor: 'pointer',
                   zIndex: 10000 + starIndex,
-                  transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
+                  transform: `translate(-50%, -50%)`,
                   left: '50%',
                   top: '50%',
                   position: 'absolute',
@@ -418,8 +419,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
                     position: 'absolute',
                     left: '50%',
                     top: '50%',
-                    transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
-                    transformStyle: 'preserve-3d',
+                    transform: `translate(-50%, -50%)`,
                     zIndex: 10000,
                     background: 'white',
                     borderRadius: '50%',
@@ -459,8 +459,7 @@ export default function SimpleZoomStarField({ stars = [], onStarClick, selectedS
                     position: 'absolute',
                     left: '50%',
                     top: '50%',
-                    transform: `rotateY(${-rotation.y}deg) rotateX(${-rotation.x}deg) translate(-50%, -50%)`,
-                    transformStyle: 'preserve-3d',
+                    transform: `translate(-50%, -50%)`,
                     zIndex: 1000,
                   }}
                 />
