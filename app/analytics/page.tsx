@@ -153,16 +153,16 @@ export default function AnalyticsPage() {
   
   // Animate numbers
   useEffect(() => {
-    const animateNumber = (target: number, setter: (val: number) => void) => {
+    const animateNumber = (target: number, setter: (val: number) => void, isDecimal = false) => {
       let current = 0
-      const increment = Math.ceil(target / 30)
+      const increment = isDecimal ? target / 30 : Math.ceil(target / 30)
       const timer = setInterval(() => {
         current += increment
         if (current >= target) {
           current = target
           clearInterval(timer)
         }
-        setter(current)
+        setter(isDecimal ? Math.round(current * 10) / 10 : Math.round(current))
       }, 30)
     }
     
@@ -177,7 +177,7 @@ export default function AnalyticsPage() {
     )
     animateNumber(stats.bounceRate, (val) => 
       setAnimatedStats(prev => ({ ...prev, bounceRate: val }))
-    )
+    , true)
   }, [stats.totalVisits, stats.uniqueVisitors, stats.todayVisits, stats.bounceRate])
   
   // Calculate page view percentages
