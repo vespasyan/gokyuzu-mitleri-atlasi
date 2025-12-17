@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function SimpleZoomStarField({ stars = [], onStarClick, selectedStarId, isVRMode = false }: Props) {
-  const [zoom, setZoom] = useState(0.7); // Varsayılan zoom %70
+  const [zoom, setZoom] = useState(0.95); // Varsayılan zoom %95
   const [rotation, setRotation] = useState({ x: 0, y: 0 }); // 3D rotation angles
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
