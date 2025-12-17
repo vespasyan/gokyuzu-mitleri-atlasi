@@ -16,10 +16,9 @@ interface Props {
   stars?: Star[];
   onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
-  isVRMode?: boolean;
 }
 
-export default function StarFieldCanvasWrapper({ stars = [], onStarClick, selectedStarId, isVRMode = false }: Props) {
+export default function StarFieldCanvasWrapper({ stars = [], onStarClick, selectedStarId }: Props) {
   // Debug what's happening
   React.useEffect(() => {
     console.log('🎬 StarFieldCanvasWrapper mounted');
@@ -85,7 +84,6 @@ export default function StarFieldCanvasWrapper({ stars = [], onStarClick, select
           stars={stars} 
           onStarClick={onStarClick} 
           selectedStarId={selectedStarId}
-          isVRMode={isVRMode}
         />
       </Suspense>
     </ErrorBoundary>
