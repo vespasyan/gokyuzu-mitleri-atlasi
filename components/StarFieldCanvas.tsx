@@ -404,6 +404,12 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
             powerPreference: "high-performance",
             preserveDrawingBuffer: true,
           }}
+          onCreated={({ gl }) => {
+            if (isVRMode) {
+              gl.xr.enabled = true;
+              console.log('✓ WebXR enabled for StarField');
+            }
+          }}
           onError={() => setHasError(true)}
         >
           {isVRMode ? (
@@ -426,8 +432,26 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
         </Canvas>
       </Suspense>
       
-      {/* WebXR VR Button - Three.js tarafından sağlanan */}
-      {isVRMode && <VRButton store={store} />}
+      {/* WebXR VR Button */}
+      {isVRMode && (
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+          <VRButton 
+            store={store}
+            style={{
+              padding: '12px 24px',
+              fontSize: '16px',
+              backgroundColor: '#4f46e5',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: '600',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
+              transition: 'all 0.2s',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
