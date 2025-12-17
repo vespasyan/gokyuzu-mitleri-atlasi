@@ -4,10 +4,9 @@ import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { Star } from '@/lib/types'
 import { StarInfoPanel } from '@/components/StarInfoPanel'
-import VRButton from '@/components/VRButton'
 import starsData from '@/data/stars.json'
 
-// Dynamic import - SimpleZoomStarField (2D canvas, high performance, default)
+// Dynamic import - SimpleZoomStarField (2D canvas, high performance)
 const SimpleZoomStarField = dynamic(
   () => import('@/components/SimpleZoomStarField'),
   { 
@@ -23,29 +22,12 @@ const SimpleZoomStarField = dynamic(
   }
 )
 
-// Dynamic import - StarFieldCanvas (3D Three.js with VR support)
-const StarFieldCanvas3D = dynamic(
-  () => import('@/components/StarFieldCanvas'),
-  { 
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-full flex items-center justify-center bg-dark-500">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-star-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">3D sahne yükleniyor...</p>
-        </div>
-      </div>
-    )
-  }
-)
-
 export default function HomePage() {
   const [selectedStar, setSelectedStar] = useState<Star | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const [stars, setStars] = useState<Star[]>([])
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false)
   const [isStarFieldLoaded, setIsStarFieldLoaded] = useState(false)
-  const [isVRMode, setIsVRMode] = useState(false)
 
   useEffect(() => {
     // JSON verilerini yükle ve tip dönüşümü yap
@@ -110,23 +92,11 @@ export default function HomePage() {
           }}
         >
           {isStarFieldLoaded && stars.length > 0 ? (
-            isVRMode ? (
-              // VR mode: Use 3D Three.js with WebXR
-              <StarFieldCanvas3D
-                stars={stars}
-                onStarClick={handleStarClick}
-                selectedStarId={selectedStar?.id}
-                isVRMode={true}
-              />
-            ) : (
-              // Normal mode: Use 2D canvas (better performance and visuals)
-              <SimpleZoomStarField
-                stars={stars}
-                onStarClick={handleStarClick}
-                selectedStarId={selectedStar?.id}
-                isVRMode={false}
-              />
-            )
+            <SimpleZoomStarField
+              stars={stars}
+              onStarClick={handleStarClick}
+              selectedStarId={selectedStar?.id}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-dark-500">
               <div className="text-center">
@@ -260,9 +230,6 @@ export default function HomePage() {
               </svg>
             </button>
           )}
-          
-          {/* VR Button */}
-          <VRButton onVRModeChange={setIsVRMode} />
         </div>
       </div>
 

@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useRef, useEffect, Suspense, useState, useMemo } from "react";
+import React, { useRef, useEffect, Suspense, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Text, useTexture } from "@react-three/drei";
-import { XR, createXRStore } from "@react-three/xr";
-import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 import * as THREE from "three";
 import { Star } from '@/lib/types';
 
@@ -12,7 +10,6 @@ type Props = {
   stars?: Star[];
   onStarClick?: (s: Star) => void;
   selectedStarId?: string | number;
-  isVRMode?: boolean;
 };
 
 // Loading fallback component
@@ -307,14 +304,12 @@ function Scene({ stars, onStarClick, selectedStarId, onControlsReady }: {
   );
 }
 
-export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarId, isVRMode = false }: Props) {
+export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarId }: Props) {
   // Canvas için kapsayıcı div (event kaynağı)
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasError, setHasError] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [controlsRef, setControlsRef] = useState<any>(null);
-  const store = useMemo(() => createXRStore(), []);
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 
   // window/document gibi erişimleri modül üstünde değil, effect içinde yap
   useEffect(() => {
@@ -406,51 +401,16 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
             powerPreference: "high-performance",
             preserveDrawingBuffer: true,
           }}
-          onCreated={({ gl }) => {
-            rendererRef.current = gl;
-            if (isVRMode) {
-              gl.xr.enabled = true;
-              console.log('✓ WebXR enabled for StarField');
-              
-              // Native VR Button ekle
-              const vrButton = VRButton.createButton(gl);
-              const vrContainer = document.getElementById('vr-button-starfield');
-              if (vrContainer && !vrContainer.hasChildNodes()) {
-                vrContainer.appendChild(vrButton);
-                console.log('✓ Native VR button added to StarField');
-              }
-            }
-          }}
           onError={() => setHasError(true)}
         >
-          {isVRMode ? (
-            <XR store={store}>
-              <Scene 
-                stars={stars} 
-                onStarClick={onStarClick} 
-                selectedStarId={selectedStarId}
-                onControlsReady={setControlsRef}
-              />
-            </XR>
-          ) : (
-            <Scene 
-              stars={stars} 
-              onStarClick={onStarClick} 
-              selectedStarId={selectedStarId}
-              onControlsReady={setControlsRef}
-            />
-          )}
+          <Scene 
+            stars={stars} 
+            onStarClick={onStarClick} 
+            selectedStarId={selectedStarId}
+            onControlsReady={setControlsRef}
+          />
         </Canvas>
       </Suspense>
-      
-      {/* Native WebXR VR Button Container */}
-      {isVRMode && (
-        <div 
-          id="vr-button-starfield"
-          className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50"
-          style={{ pointerEvents: 'auto' }}
-        />
-      )}
     </div>
   );
 }
