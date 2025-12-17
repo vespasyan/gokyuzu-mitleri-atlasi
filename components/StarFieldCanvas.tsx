@@ -3,7 +3,8 @@
 import React, { useRef, useEffect, Suspense, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Text, useTexture } from "@react-three/drei";
-import { VRButton, XR, createXRStore } from "@react-three/xr";
+import { XR, createXRStore } from "@react-three/xr";
+import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 import * as THREE from "three";
 import { Star } from '@/lib/types';
 
@@ -313,6 +314,7 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [controlsRef, setControlsRef] = useState<any>(null);
   const store = useMemo(() => createXRStore(), []);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 
   // window/document gibi erişimleri modül üstünde değil, effect içinde yap
   useEffect(() => {
@@ -405,9 +407,18 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
             preserveDrawingBuffer: true,
           }}
           onCreated={({ gl }) => {
+            rendererRef.current = gl;
             if (isVRMode) {
               gl.xr.enabled = true;
               console.log('✓ WebXR enabled for StarField');
+              
+              // Native VR Button ekle
+              const vrButton = VRButton.createButton(gl);
+              const vrContainer = document.getElementById('vr-button-starfield');
+              if (vrContainer && !vrContainer.hasChildNodes()) {
+                vrContainer.appendChild(vrButton);
+                console.log('✓ Native VR button added to StarField');
+              }
             }
           }}
           onError={() => setHasError(true)}
@@ -432,25 +443,13 @@ export default function StarFieldCanvas({ stars = [], onStarClick, selectedStarI
         </Canvas>
       </Suspense>
       
-      {/* WebXR VR Button */}
+      {/* Native WebXR VR Button Container */}
       {isVRMode && (
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
-          <VRButton 
-            store={store}
-            style={{
-              padding: '12px 24px',
-              fontSize: '16px',
-              backgroundColor: '#4f46e5',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
-              transition: 'all 0.2s',
-            }}
-          />
-        </div>
+        <div 
+          id="vr-button-starfield"
+          className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50"
+          style={{ pointerEvents: 'auto' }}
+        />
       )}
     </div>
   );
