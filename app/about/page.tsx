@@ -130,7 +130,7 @@ export default function AboutPage() {
               Ekip
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              “Gökyüzü Mitleri Atlası”, farklı disiplinlerden genç yaratıcıların bir araya gelerek Türk mitolojisini çağdaş sanat ve dijital teknolojilerle buluşturduğu bir proje olarak tasarlanmıştır. Web sitesinin tüm tasarım ve yazılım süreçleri Fazlı TOSUN tarafından geliştirilmiş, projenin dijital altyapısı ve deneyim tasarımı bu çalışma ile şekillenmiştir.
+              “   Gökyüzü Mitleri Atlası”, farklı disiplinlerden genç yaratıcıların bir araya gelerek Türk mitolojisini çağdaş sanat ve dijital teknolojilerle buluşturduğu bir proje olarak tasarlanmıştır. Web sitesinin tüm tasarım ve yazılım süreçleri Fazlı TOSUN'un danışmanlı ile Ali Eren Uğurlu,  Arya Deniz Altıokka, Şeyma Şimşek tarafından geliştirilmiş, projenin dijital altyapısı ve deneyim tasarımı bu çalışma ile şekillenmiştir.
 
               Projenin sanatsal içeriği ise Şeyma Şimşek, Arya Deniz Altiokka, Mısra Oya Uzel, Yağmur Duman ve Alperen Akdağ tarafından üretilmiş; yıldız mitlerinden ilham alan özgün eserler, her öğrencinin kendi yorumuyla çağdaş bir estetik içerisinde yeniden hayat bulmuştur.
 
